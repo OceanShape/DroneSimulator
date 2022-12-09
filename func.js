@@ -1,15 +1,18 @@
 var GLOBAL = {
 	engineDirectory : "./engine/",
 
-	TRACE_TARGET : null,
-	
 	MOUSE_BUTTON_PRESS : false,
 	KEY_PRESS_w : false,
 	KEY_PRESS_s : false,
 	KEY_PRESS_a : false,
 	KEY_PRESS_d : false,
 	KEY_PRESS_e : false,
-	KEY_PRESS_q : false
+	KEY_PRESS_q : false,
+
+	CAMERA_LONGITUDE : 126.927885,
+	CAMERA_LATITUDE : 37.518085,
+	CAMERA_ALTITUDE : 50.0,
+	CAMERA_DIRECT : 0.0
 }
 
 // 엔진 로드 후 실행할 초기화 함수(Module.postRun)
@@ -20,93 +23,53 @@ function init() {
 
 	// 카메라 설정
 	var camera = Module.getViewCamera();
-	camera.setLocation(new Module.JSVector3D(129.1454803323809, 35.15384277119935, 300.0));
-	camera.setLimitTilt(-88.0);
-
-	// 위치 추적 모델 생성
-	loadTargetModel(function(model) {
-
-		var traceTarget = Module.createTraceTarget(model.getId());
-		traceTarget.set({
-			object : model,
-			tilt : 45.0,
-			direction : 180.0,
-			distance : 1.0
-		});
-		
-		GLOBAL.TRACE_TARGET = traceTarget;
-		
-		var camera = Module.getViewCamera();
-		camera.setTraceTarget(GLOBAL.TRACE_TARGET);
-		camera.setTraceActive(true);
-	});
+	camera.setLocation(new Module.JSVector3D(GLOBAL.CAMERA_LONGITUDE, GLOBAL.CAMERA_LATITUDE, GLOBAL.CAMERA_ALTITUDE));
+	//camera.setMoveMode(true); // 1인칭 : 카메라가 제자리에서 회전
+	camera.setTilt(10);
 
 	// 건물 레이어 추가
 	Module.XDEMapCreateLayer("facility_build", "https://xdworld.vworld.kr", 0, true, true, false, 9, 0, 15);
 
 	initEvent(Module.canvas)
-	setInterval(renewObjectMoving, 50);
 }
 
-/* 모델 객체 생성 */
-function loadTargetModel(_callback) {
+// move 정의
+// 입력 좌표로 카메라 뷰를 이동
+// 카메라 위치 좌표 반환은 canvas.onmouseup 참조
+function setMove() {
 
-	Module.getGhostSymbolMap().insert({
-		
-		id: "car",	
-		url : "./data/car.3ds",
-		callback: function(e) {
-
-			var model = Module.createGhostSymbol("car");
-		
-			// base point 설정
-			model.setBasePoint(0.0, -0.2, 0.0);
-			model.setScale(new Module.JSSize3D(1.0, 1.0, 1.0));
-			model.setGhostSymbol("car");
-			model.setPosition(new Module.JSVector3D(129.1454803323809, 35.15384277119935, 3.161871349439025));	
-			
-			_callback(model);
-		}
-	});
+	console.log(GLOBAL.CAMERA_LONGITUDE, GLOBAL.CAMERA_LATITUDE, GLOBAL.CAMERA_ALTITUDE);
+	let camera = Module.getViewCamera();	// 카메라 클래스 불러오기
+	let pos = new Module.JSVector3D(GLOBAL.CAMERA_LONGITUDE, GLOBAL.CAMERA_LATITUDE, GLOBAL.CAMERA_ALTITUDE);		// 경위도를  JSVector3D 형태로 변경
+	camera.setAltitude(GLOBAL.CAMERA_ALTITUDE);	
+	camera.setLocation(pos);							// 카메라 이동 ( getLocation 통해 현재값 반환)
 }
 
-/* 키 조작에 따른 오브젝트 위치 이동 */
+/* 키 조작에 따른 오브젝트 위치 이동: 수정 필요 */
 function renewObjectMoving() {
 
-	if (GLOBAL.TRACE_TARGET == null) {
-		return;
-	}
-
-	var move_front = 0.0;
-	var move_right = 0.0;
-	var move_up = 0.0;
+	var move_delta = 0.00001;
 
 	if (GLOBAL["KEY_PRESS_w"]) {
-		move_front = 1.0;
-        console.log("front")
+		GLOBAL.CAMERA_LONGITUDE += move_delta;
 	} else if (GLOBAL["KEY_PRESS_s"]) {
-		move_front = -1.0;
-        console.log("back")
+		GLOBAL.CAMERA_LONGITUDE -= move_delta;
 	} else;
 
 	if (GLOBAL["KEY_PRESS_a"]) {
-		move_right = -1.0;
-        console.log("left")
+		GLOBAL.CAMERA_LATITUDE += move_delta;
 	} else if (GLOBAL["KEY_PRESS_d"]) {
-		move_right = 1.0;
-        console.log("right")
+		GLOBAL.CAMERA_LATITUDE -= move_delta;
 	} else;
 
 	if (GLOBAL["KEY_PRESS_e"]) {
-		move_up = 1.0;
-		console.log("up")
+		GLOBAL.CAMERA_ALTITUDE += 1;
 	} else if (GLOBAL["KEY_PRESS_q"]) {
-		move_up = -1.0;
-        console.log("down")
+		GLOBAL.CAMERA_ALTITUDE -= 1;
+		setMove();
 	} else;
 
-	GLOBAL.TRACE_TARGET.move(move_front, move_right, true);
-	Module.XDRenderData();
+	//setMove();
 }
 
 /* 마우스 & 키보드 이벤트 설정 */
@@ -129,27 +92,27 @@ function initEvent(_canvas) {
 		GLOBAL.MOUSE_BUTTON_PRESS = false;
 	});
 
-	_canvas.addEventListener('mousemove', function(e) {
-		
-		if (GLOBAL.MOUSE_BUTTON_PRESS) {
+	// _canvas.addEventListener('mousemove', function(e) {
 
-			// Mouse left button
-			if (e.buttons == 2) {
-				
-				GLOBAL.TRACE_TARGET.direction += (e.movementX*0.5);
-				GLOBAL.TRACE_TARGET.tilt += (e.movementY*0.5);
-			}
-		}
-	});
+	// 	if (GLOBAL.MOUSE_BUTTON_PRESS) {
+	// 		console.log("MOUSE button")
 
-	_canvas.addEventListener('wheel', function(e) {
+	// 		// Mouse left button
+	// 		if (e.buttons == 2) {
+	// 			GLOBAL.TRACE_TARGET.direction += (e.movementX*0.5);
+	// 			GLOBAL.TRACE_TARGET.tilt += (e.movementY*0.5);
+	// 		}
+	// 	}
+	// });
 
-		if (e.wheelDelta < 0) {
-			GLOBAL.TRACE_TARGET.distance *= 1.10;
-		} else {
-			GLOBAL.TRACE_TARGET.distance *= 0.90;
-		}
-	});
+	// _canvas.addEventListener('wheel', function(e) {
+	// 	console.log("wheel")
+	// 	if (e.wheelDelta < 0) {
+	// 		GLOBAL.TRACE_TARGET.distance *= 1.10;
+	// 	} else {
+	// 		GLOBAL.TRACE_TARGET.distance *= 0.90;
+	// 	}
+	// });
 }
 
 // 엔진 파일 로드
