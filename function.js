@@ -1,11 +1,14 @@
 var GLOBAL = {
 	engineDirectory : "./engine/",
+	currentFilePath : null,
+	FPFilePath : "./menu-first-person.html",
+	TPFilePath : "./menu-third-person.html"
 }
 
 // 엔진 로드 후 실행할 초기화 함수(Module.postRun)
 function init() {
 
-	document.getElementById('content').innerHTML = "./fp.html"
+	//document.getElementById("data").innerHTML="./fp.html";
 
 	Module.Start(window.innerWidth, window.innerHeight);
 
@@ -13,11 +16,47 @@ function init() {
 
 	Module.XDEMapCreateLayer("facility_build", "https://xdworld.vworld.kr", 0, true, true, false, 9, 0, 15);
 
-	//initEvent(Module.canvas)
+	GLOBAL.canvas = Module.canvas
+
+	GLOBAL.currentFilePath = GLOBAL.FPFilePath
+
+	includeHTML()
 }
 
-function changeTest() {
-	var host = document.getElementById("site");
+function setMove() {
+	let camera = Module.getViewCamera();
+	let lon, lat, alt;
+
+	lon = getItemValue("u_txt_lon");
+	lat = getItemValue("u_txt_lat");
+	alt = getItemValue("u_txt_alt");
+
+	lon *= 1;
+	lat *= 1;
+	alt *= 1;
+
+	let pos = new Module.JSVector3D(lon, lat, alt);
+	camera.setLocation(pos);
+}
+
+function changeMode() {
+	let camera = Module.getViewCamera();
+	var pos, lon, lat, alt;
+
+	if (GLOBAL.currentFilePath == GLOBAL.FPFilePath) {
+		GLOBAL.currentFilePath = GLOBAL.TPFilePath
+		lon = 126.91534283205316
+		lat = 37.53060216016567
+		alt = 836.298700842075
+	} else {
+		GLOBAL.currentFilePath = GLOBAL.FPFilePath
+		lon = 127.0235631310443
+		lat = 37.53784745806899
+		alt = 8017.193708020262
+	}
+	pos = new Module.JSVector3D(lon, lat, alt)
+	camera.setLocation(pos);
+	includeHTML()
 }
 
 /* 마우스 & 키보드 이벤트 설정 */
@@ -31,8 +70,30 @@ function initEvent(_canvas) {
 	});
 }
 
+// HTML 인클루드
+function includeHTML() {
+	var z, i, elmnt, file, xhttp;
+	z = document.getElementsByTagName("div");
+	for (i = 0; i < z.length; i++) {
+		elmnt = z[i];
+		file = GLOBAL.currentFilePath
+		if (file) {
+		xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4) {
+				if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+				if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+			}
+		}
+		xhttp.open("GET", file, true);
+		xhttp.send();
+		return;
+		}
+	}
+}
+
 // 엔진 파일 로드
-;(function(){
+(function(){
 
 	// 1. XDWorldEM.asm.js 파일 로드
 	var file = GLOBAL.engineDirectory + "XDWorldEM.asm.js";
