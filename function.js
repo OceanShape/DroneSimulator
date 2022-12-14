@@ -3,7 +3,6 @@ var GLOBAL = {
 	currentFilePath : null,
 	FPFilePath : "./menu-first-person.html",
 	TPFilePath : "./menu-third-person.html"
-	
 }
 
 // 엔진 로드 후 실행할 초기화 함수(Module.postRun)
