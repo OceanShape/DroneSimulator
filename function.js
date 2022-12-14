@@ -1,8 +1,8 @@
 var GLOBAL = {
 	engineDirectory : "./engine/",
 	currentFilePath : null,
-	FPFilePath : "./menu-first-person.html",
-	TPFilePath : "./menu-third-person.html"
+	FPFilePath : "./menu-driving-mode.html",
+	TPFilePath : "./menu-select-mode.html"
 }
 
 // 엔진 로드 후 실행할 초기화 함수(Module.postRun)

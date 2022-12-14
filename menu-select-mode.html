@@ -1,6 +1,6 @@
-<label align="center">출발/도착1지점 선택</label>
+<label align="center">출발/도착 지점 선택</label>
 <table style="width: 150px;">
-    <td align="center" colspan="2">드론</td>
+    <td align="center" colspan="2">출발</td>
         <tr>
             <td align="center" style="width: 50px;">경도</td>
             <td align="center"><input id="tp_st_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
@@ -27,5 +27,5 @@
             <td align="center"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
         </tr>
 </table>
-<input type="button" value="초기화" onclick="clearPOI()">
-<input class="include-html" type="button" value="주행 시작" onclick="changeMode()">
+<button onclick="clearPOI()">초기화</button>
+<button onclick="changeMode()">주행 시작</button>
