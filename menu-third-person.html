@@ -1,17 +1,30 @@
-<label> 3인칭 모드 </label>
-<table style="width: 270px;">
+<label align="center">주행 중</label>
+<table style="width: 150px;">
+    <td align="center" colspan="2">드론 pos</td>
     <tr>
         <td align="center" style="width: 50px;">경도</td>
-        <td align="center"><input id="tp_txt_lon" type="text" style="width: 90%; height: 90%;" value="126.926464"></td>
-        <td rowspan="3" align="center"><input type="button" style="width: 90%; height: 70px;" value="MOVE"
-                onclick="changeMode()"></td>
+        <td align="center"><input id="tp_st_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
         <td align="center">위도</td>
-        <td align="center"><input id="tp_txt_lat" type="text" style="width: 90%; height: 90%;" value="37.524635"></td>
+        <td align="center"><input id="tp_st_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
         <td align="center">고도</td>
-        <td align="center"><input id="tp_txt_alt" type="text" style="width: 90%; height: 90%;" value="500"></td>
+        <td align="center"><input id="tp_st_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+    </tr>
+    <td align="center" colspan="2">카메라</td>
+    <tr>
+        <td align="center" style="width: 50px;">경도</td>
+        <td align="center"><input id="tp_ed_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+    </tr>
+    <tr>
+        <td align="center">위도</td>
+        <td align="center"><input id="tp_ed_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+    </tr>
+    <tr>
+        <td align="center">고도</td>
+        <td align="center"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
 </table>
+<input type="button" value="주행 종료" onclick="changeMode()">

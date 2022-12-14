@@ -3,6 +3,7 @@ var GLOBAL = {
 	currentFilePath : null,
 	FPFilePath : "./menu-first-person.html",
 	TPFilePath : "./menu-third-person.html"
+	
 }
 
 // 엔진 로드 후 실행할 초기화 함수(Module.postRun)
@@ -18,7 +19,9 @@ function init() {
 
 	GLOBAL.canvas = Module.canvas
 
-	GLOBAL.currentFilePath = GLOBAL.FPFilePath
+	GLOBAL.currentFilePath = GLOBAL.TPFilePath
+
+	camera.setLocation(new Module.JSVector3D(126.91534283205316, 37.53060216016567, 836.298700842075));
 
 	includeHTML()
 }
@@ -37,12 +40,16 @@ function setMove() {
 
 	let pos = new Module.JSVector3D(lon, lat, alt);
 	camera.setLocation(pos);
+	camera.setTilt()
+}
+
+function clearPOI() {
+	
 }
 
 function changeMode() {
-	let camera = Module.getViewCamera();
-	var pos, lon, lat, alt;
-
+	let camera = Module.getViewCamera()
+	var lon, lat, alt, tilt
 	if (GLOBAL.currentFilePath == GLOBAL.FPFilePath) {
 		GLOBAL.currentFilePath = GLOBAL.TPFilePath
 		lon = 126.91534283205316
@@ -54,8 +61,7 @@ function changeMode() {
 		lat = 37.53784745806899
 		alt = 8017.193708020262
 	}
-	pos = new Module.JSVector3D(lon, lat, alt)
-	camera.setLocation(pos);
+	camera.setLocation(new Module.JSVector3D(lon, lat, alt));
 	includeHTML()
 }
 
@@ -72,22 +78,21 @@ function initEvent(_canvas) {
 
 // HTML 인클루드
 function includeHTML() {
-	var z, i, elmnt, file, xhttp;
-	z = document.getElementsByTagName("div");
-	for (i = 0; i < z.length; i++) {
-		elmnt = z[i];
-		file = GLOBAL.currentFilePath
+	var includeElements = document.getElementsByClassName("include-html")
+	for (var element of includeElements) {
+		var xhttp;
+		var file = GLOBAL.currentFilePath
 		if (file) {
-		xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4) {
-				if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-				if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+			xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					if (this.status == 200) {element.innerHTML = this.responseText;}
+					if (this.status == 404) {element.innerHTML = "Page not found.";}
+				}
 			}
-		}
-		xhttp.open("GET", file, true);
-		xhttp.send();
-		return;
+			xhttp.open("GET", file, true);
+			xhttp.send();
+			return;
 		}
 	}
 }
