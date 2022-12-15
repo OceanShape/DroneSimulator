@@ -1,5 +1,5 @@
 <label align="center">주행 중</label>
-<table style="width: 150px;">
+<table style="width: 240px;">
     <td align="center" colspan="2">드론</td>
     <tr>
         <td align="center" style="width: 50px;">경도</td>
@@ -15,20 +15,58 @@
     </tr>
     <td align="center" colspan="2">카메라</td>
     <tr>
-        <td align="center" style="width: 50px;">TILT</td>
+        <td style="width: 50px;">TILT</td>
         <td align="center"><input id="tp_ed_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
-        <td align="center">DIRECT</td>
+        <td>DIRECT</td>
         <td align="center"><input id="tp_ed_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
-        <td align="center">ALTITUDE</td>
+        <td>ALTITUDE</td>
         <td align="center"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
-        <td align="center">시야각</td>
+        <td>시야각</td>
         <td align="center"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
 </table>
+<details>
+    <summary>조작 방법</summary>
+    <div markdown="1">
+
+        <p align="center"><img align="center" width="180px" src="./data/control.png" style="border-radius: 20px;"></p>
+        <table>
+            <tr>
+                <td><img width="30px" src="./data/front.png"></td>
+                <td><img width="30px" src="./data/back.png"></td>
+                <td align="center" style="width: 50px;">W / X</td>
+                <td align="center" style="width: 120px;">전/후 이동</td>
+            </tr>
+            <tr>
+                <td><img width="30px" src="./data/left.png"></td>
+                <td><img width="30px" src="./data/right.png"></td>
+                <td align="center" style="width: 50px;">A / D</td>
+                <td align="center" style="width: 120px;">좌/우 이동</td>
+            </tr>
+            <tr>
+                <td><img width="30px" src="./data/rot_left.png"></td>
+                <td><img width="30px" src="./data/rot_right.png"></td>
+                <td align="center" style="width: 50px;">Q / E</td>
+                <td align="center" style="width: 120px;">좌/우 회전</td>
+            </tr>
+            <tr>
+                <td><img width="30px" src="./data/down.png"></td>
+                <td><img width="30px" src="./data/up.png"></td>
+                <td align="center" style="width: 50px;">Z / C</td>
+                <td align="center" style="width: 120px;">하강/상승</td>
+            </tr>
+            <tr>
+                <td colspan="2"><img width="30px" src="./data/camera.png"></td>
+                <td align="center" style="width: 50px;">S</td>
+                <td align="center" style="width: 120px;">카메라 초기화</td>
+            </tr>
+        </table>
+    </div>
+</details>
 <input type="button" value="주행 종료" onclick="changeMode()">
