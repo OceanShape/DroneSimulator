@@ -61,6 +61,7 @@ function changeMode() {
 		alt = 8017.193708020262
 	}
 	camera.setLocation(new Module.JSVector3D(lon, lat, alt));
+	camera.setTilt(90.0)
 	includeHTML()
 }
 
