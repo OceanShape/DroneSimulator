@@ -1,36 +1,37 @@
 <label align="center">주행 중</label>
-<table style="width: 240px;">
+<table style="width: 250px;">
     <td align="center" colspan="2">드론</td>
     <tr>
-        <td align="center" style="width: 50px;">경도</td>
-        <td align="center"><input id="tp_st_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="left" style="width: 50px;">경도</td>
+        <td align="right"><input id="tp_st_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
-        <td align="center">위도</td>
-        <td align="center"><input id="tp_st_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="left">위도</td>
+        <td align="right"><input id="tp_st_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
-        <td align="center">고도</td>
-        <td align="center"><input id="tp_st_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="left">고도</td>
+        <td align="right"><input id="tp_st_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <td align="center" colspan="2">카메라</td>
     <tr>
         <td style="width: 50px;">TILT</td>
-        <td align="center"><input id="tp_ed_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="right"><input id="tp_ed_lon" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
         <td>DIRECT</td>
-        <td align="center"><input id="tp_ed_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="right"><input id="tp_ed_lat" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
         <td>ALTITUDE</td>
-        <td align="center"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="right"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
     <tr>
         <td>시야각</td>
-        <td align="center"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
+        <td align="right"><input id="tp_ed_alt" type="text" style="width: 90%; height: 90%;" value="0.0"></td>
     </tr>
 </table>
+<p align="center"><input type="button" value="주행 종료" onclick="changeMode()"></p>
 <details>
     <summary>조작 방법</summary>
     <div markdown="1">
@@ -62,11 +63,10 @@
                 <td align="center" style="width: 120px;">하강/상승</td>
             </tr>
             <tr>
-                <td colspan="2"><img width="30px" src="./data/camera.png"></td>
+                <td align="center" colspan="2"><img width="30px" src="./data/camera.png"></td>
                 <td align="center" style="width: 50px;">S</td>
                 <td align="center" style="width: 120px;">카메라 초기화</td>
             </tr>
         </table>
     </div>
 </details>
-<input type="button" value="주행 종료" onclick="changeMode()">
