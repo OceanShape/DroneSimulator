@@ -30,11 +30,13 @@ function changeMode() {
 		lon = 126.91534283205316
 		lat = 37.53060216016567
 		alt = 836.298700842075
+		setSelectMode()
 	} else {
 		GLOBAL.currentFilePath = GLOBAL.FPFilePath
 		lon = 127.0235631310443
 		lat = 37.53784745806899
 		alt = 8017.193708020262
+		setDrivingMode()
 	}
 	camera.setLocation(new Module.JSVector3D(lon, lat, alt));
 	camera.setTilt(90.0)

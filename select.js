@@ -1,0 +1,2 @@
+function setSelectMode() {}
+function clearPOI() {}
