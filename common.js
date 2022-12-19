@@ -1,21 +1,21 @@
 var GLOBAL = {
 	engineDirectory : "./engine/",
-	currentFilePath : null,
-	FPFilePath : "./menu-driving-mode.html",
-	TPFilePath : "./menu-select-mode.html"
+	currentPath : null,
+	drivingModePath : "./menu-driving-mode.html",
+	selectModePath : "./menu-select-mode.html"
 }
 
 function changeMode() {
 	let camera = Module.getViewCamera()
 	var lon, lat, alt, tilt
-	if (GLOBAL.currentFilePath == GLOBAL.FPFilePath) {
-		GLOBAL.currentFilePath = GLOBAL.TPFilePath
+	if (GLOBAL.currentPath == GLOBAL.drivingModePath) {
+		GLOBAL.currentPath = GLOBAL.selectModePath
 		lon = 126.91534283205316
 		lat = 37.53060216016567
 		alt = 836.298700842075
 		setSelectMode()
 	} else {
-		GLOBAL.currentFilePath = GLOBAL.FPFilePath
+		GLOBAL.currentPath = GLOBAL.drivingModePath
 		lon = 127.0235631310443
 		lat = 37.53784745806899
 		alt = 8017.193708020262

@@ -7,7 +7,7 @@
 
 	GLOBAL.canvas = Module.canvas
 
-	GLOBAL.currentFilePath = GLOBAL.TPFilePath
+	GLOBAL.currentPath = GLOBAL.selectModePath
 
 	camera.setLocation(new Module.JSVector3D(126.91534283205316, 37.53060216016567, 836.298700842075));
 
@@ -19,7 +19,7 @@ function includeHTML() {
 	var includeElements = document.getElementsByClassName("include-html")
 	for (var element of includeElements) {
 		var xhttp;
-		var file = GLOBAL.currentFilePath
+		var file = GLOBAL.currentPath
 		if (file) {
 			xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
