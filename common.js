@@ -5,23 +5,6 @@ var GLOBAL = {
 	TPFilePath : "./menu-select-mode.html"
 }
 
-function setMove() {
-	let camera = Module.getViewCamera();
-	let lon, lat, alt;
-
-	lon = getItemValue("u_txt_lon");
-	lat = getItemValue("u_txt_lat");
-	alt = getItemValue("u_txt_alt");
-
-	lon *= 1;
-	lat *= 1;
-	alt *= 1;
-
-	let pos = new Module.JSVector3D(lon, lat, alt);
-	camera.setLocation(pos);
-	camera.setTilt()
-}
-
 function changeMode() {
 	let camera = Module.getViewCamera()
 	var lon, lat, alt, tilt
@@ -44,12 +27,21 @@ function changeMode() {
 }
 
 /* 마우스 & 키보드 이벤트 설정 */
-function initEvent(_canvas) {
-	window.addEventListener("keydown", function(e) {
-		console.log(e);
+function initEvent() {
+	window.addEventListener("keypress", function(e) {
+		printPosition()
 	});
 
-	_canvas.addEventListener('mousemove', function(e) {
-		console.log("MOUSE event");
+	Module.canvas.addEventListener('mousemove', function(e) {
+		printCamera()
 	});
+
+	Module.canvas.addEventListener('wheel', function(e) {
+		printCamera()
+	});
+}
+
+function setItemValue(_div, _value) {
+	let div = document.getElementById(_div);
+	div.value = "" + _value;
 }
