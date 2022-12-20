@@ -1,24 +1,20 @@
 function setDrivingMode() {
-	initEvent()
+	addEvent()
 	Module.getViewCamera().setMoveMode(true)
+	
+	let control = Module.getControl()
+	control.setKeyControlEnable(false)
+	control.setMouseZoomMode(false)
 }
 
-function printPosition() {
-	console.log("position")
-	let pos = Module.getViewCamera().getLocation()
-
+function printPosition(pos) {
 	setItemValue("driving_longitude", pos.Longitude)
 	setItemValue("driving_latitude", pos.Latitude)
 	setItemValue("driving_altitude", pos.Altitude)
 }
 
-function printCamera() {
-	let cam = Module.getViewCamera()
-	let tilt = Math.floor(cam.getTilt())
-	let direct = Math.floor(cam.getDirect())
-	let fov = Math.floor(cam.getFov())
-
-	setItemValue("driving_tilt", tilt)
-	setItemValue("driving_direct", direct)
-	setItemValue("driving_fov", fov)
+function printCamera(camera) {
+	setItemValue("driving_tilt", Math.floor(camera.getTilt()))
+	setItemValue("driving_direct", Math.floor(camera.getDirect()))
+	setItemValue("driving_fov", Math.floor(camera.getFov()))
 }
