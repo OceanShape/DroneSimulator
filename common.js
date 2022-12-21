@@ -8,24 +8,7 @@ var GLOBAL = {
 }
 
 function changeMode() {
-	let camera = Module.getViewCamera()
-	var lon, lat, alt
-	if (GLOBAL.currentPath == GLOBAL.drivingModePath) {
-		GLOBAL.currentPath = GLOBAL.selectModePath
-		lon = 126.91534283205316
-		lat = 37.53060216016567
-		alt = 836.298700842075
-		setSelectMode()
-		camera.setTilt(90.0)
-	} else {
-		GLOBAL.currentPath = GLOBAL.drivingModePath
-		lon = 127.0235631310443
-		lat = 37.53784745806899
-		alt = 800.193708020262
-		setDrivingMode()
-		camera.setTilt(20.0)
-	}
-	Module.getViewCamera().moveLonLatAlt(lon, lat, alt, true)
+	(GLOBAL.currentPath == GLOBAL.selectModePath) ? setDrivingMode() : setSelectMode()
 	includeHTML()
 }
 

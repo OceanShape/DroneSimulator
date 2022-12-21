@@ -1,12 +1,21 @@
 function setSelectMode() {
-    removeEvent()
-	Module.getViewCamera().setMoveMode(false)
-	
+
+	let camera = Module.getViewCamera()
 	let control = Module.getControl()
+	
+	lon = 126.91534283205316
+	lat = 37.53060216016567
+	alt = 836.298700842075
+	
+	camera.setMoveMode(false)
+	camera.moveLonLatAlt(lon, lat, alt, true)
+	camera.setTilt(90.0)
+
 	control.setKeyControlEnable(true)
 	control.setMouseZoomMode(true)
-
-	//createPOI()
+	removeEvent()
+	
+	GLOBAL.currentPath = GLOBAL.selectModePath
 }
 
 function loadPOIImage() {
