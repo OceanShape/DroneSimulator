@@ -2,7 +2,9 @@ var GLOBAL = {
 	engineDirectory : "./engine/",
 	currentPath : null,
 	drivingModePath : "./menu-driving-mode.html",
-	selectModePath : "./menu-select-mode.html"
+	selectModePath : "./menu-select-mode.html",
+	startPOIImagePath : "./data/start.png",
+	endPOIImagePath : "./data/end.png"
 }
 
 function changeMode() {

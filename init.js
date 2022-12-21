@@ -9,6 +9,8 @@
 
 	GLOBAL.currentPath = GLOBAL.selectModePath
 
+	createPOI()
+
 	camera.setLocation(new Module.JSVector3D(126.91534283205316, 37.53060216016567, 836.298700842075));
 
 	includeHTML()
