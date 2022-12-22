@@ -24,11 +24,14 @@ function mouseClickCallback(event) {
         new Module.JSVector2D(event.x, event.y)
     );
 
-    createPOI(mapPosition);
-    printPOIPosition(mapPosition);
-
-    GLOBAL.POICount =
-        GLOBAL.POICount < 2 ? GLOBAL.POICount + 1 : GLOBAL.POICount;
+    if (GLOBAL.POICount < 2) {
+        createPOI(mapPosition);
+        printPOIPosition(mapPosition);
+        GLOBAL.POICount += 1;
+        if (GLOBAL.POICount == 2) {
+            GLOBAL.isAllPOISet = true;
+        }
+    }
 }
 
 function printPOIPosition(pos) {
@@ -51,14 +54,12 @@ function createPOI(pos) {
     var imagePath = [GLOBAL.startPOIImagePath, GLOBAL.endPOIImagePath];
     var imageText = ["START", "END"];
     var idx = GLOBAL.POICount;
-    if (idx >= 2) {
-        return;
-    }
     var img = GLOBAL.images;
 
     GLOBAL.POIPosition.push(pos);
 
     img.push(new Image());
+
     img[idx].onload = function () {
         var canvas = document.createElement("canvas");
         var ctx = canvas.getContext("2d");
@@ -79,10 +80,12 @@ function createPOI(pos) {
 
         GLOBAL.layer.addObject(poi, 0);
     };
+
     img[idx].src = imagePath[idx];
 }
 
 function clearPOI() {
+    GLOBAL.isAllPOISet = false;
     GLOBAL.POICount = 0;
     GLOBAL.POIPosition = [];
     GLOBAL.images = [];

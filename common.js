@@ -9,10 +9,13 @@ var GLOBAL = {
     layer: null,
     images: null,
     POIPosition: null,
+    isAllPOISet: false,
 };
 
 function changeMode() {
-    // check POICOUNT
+    if (GLOBAL.isAllPOISet == false) {
+        return;
+    }
     GLOBAL.currentPath == GLOBAL.selectModePath
         ? setDrivingMode()
         : setSelectMode();
@@ -32,7 +35,7 @@ function changeMode() {
 
 function keyPressCallback(event) {
     const delta = 0.0001;
-    let camera = Module.getViewCamera()
+    let camera = Module.getViewCamera();
     let direction = camera.getDirect();
     let pos = camera.getLocation();
 
@@ -60,7 +63,7 @@ function keyPressCallback(event) {
         pos.Altitude,
         true
     );
-    camera.setDirect(direction)
+    camera.setDirect(direction);
     printDronePosition(pos);
 }
 
