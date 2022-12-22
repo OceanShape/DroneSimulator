@@ -6,6 +6,8 @@ var GLOBAL = {
     startPOIImagePath: "./data/start.png",
     endPOIImagePath: "./data/end.png",
     POICount: 0,
+    layer: null,
+    images: null,
 };
 
 function changeMode() {
@@ -54,17 +56,6 @@ function mouseMoveCallback() {
     printDroneCamera();
 }
 
-function mouseClickCallback(event) {
-    // 화면->지도 좌표 변환
-    var screenPosition = new Module.JSVector2D(event.x, event.y);
-    printPOIPosition(Module.getMap().ScreenToMapPointEX(screenPosition));
-
-    console.log(GLOBAL.POICount);
-
-    GLOBAL.POICount =
-        GLOBAL.POICount < 2 ? GLOBAL.POICount + 1 : GLOBAL.POICount;
-}
-
 /* 마우스 & 키보드 이벤트 설정 */
 function addSelectModeEvent() {
     Module.canvas.addEventListener("click", mouseClickCallback);
@@ -91,6 +82,7 @@ function removeDrivingModeEvent() {
 }
 
 function setItemValue(_div, _value) {
-    let div = document.getElementById(_div);
-    div.value = "" + parseFloat(_value).toFixed(6);
+    let value =
+        typeof _value == Number ? "" + parseFloat(_value).toFixed(6) : _value;
+    document.getElementById(_div).value = value;
 }

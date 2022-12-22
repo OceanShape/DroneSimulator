@@ -17,9 +17,11 @@
 
     GLOBAL.canvas = Module.canvas;
 
-    setSelectMode();
+    var layerList = new Module.JSLayerList(true);
+    GLOBAL.layer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
+    GLOBAL.images = [];
 
-    createPOI();
+    setSelectMode();
 
     camera.setLocation(
         new Module.JSVector3D(

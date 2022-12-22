@@ -15,8 +15,20 @@ function setSelectMode() {
     removeDrivingModeEvent();
     addSelectModeEvent();
 
-    GLOBAL.POICount = 0;
     GLOBAL.currentPath = GLOBAL.selectModePath;
+}
+
+function mouseClickCallback(event) {
+    // 화면->지도 좌표 변환
+    let mapPosition = Module.getMap().ScreenToMapPointEX(
+        new Module.JSVector2D(event.x, event.y)
+    );
+
+    createPOI(mapPosition);
+    printPOIPosition(mapPosition);
+
+    GLOBAL.POICount =
+        GLOBAL.POICount < 2 ? GLOBAL.POICount + 1 : GLOBAL.POICount;
 }
 
 function printPOIPosition(pos) {
@@ -37,41 +49,51 @@ function printPOIPosition(pos) {
 
 function loadPOIImage() {}
 
-function createPOI() {
-    var layerList = new Module.JSLayerList(true);
-    var layer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
-
+function createPOI(pos) {
     var imagePath = [GLOBAL.startPOIImagePath, GLOBAL.endPOIImagePath];
     var imageText = ["START", "END"];
-    var img = [];
-    for (let i = 0; i < 2; i++) {
-        img.push(new Image());
-        img[i].onload = function () {
-            var canvas = document.createElement("canvas");
-            var ctx = canvas.getContext("2d");
-            canvas.width = img[i].width;
-            canvas.height = img[i].height;
-            ctx.drawImage(img[i], 0, 0);
-
-            var poi = Module.createPoint("MY_POI");
-            poi.setPosition(
-                new Module.JSVector3D(
-                    126.91534283205316 + 0.001 * i,
-                    37.53060216016567,
-                    13.315417
-                )
-            );
-            poi.setImage(
-                ctx.getImageData(0, 0, this.width, this.height).data,
-                this.width,
-                this.height
-            );
-            poi.setText(imageText[i]);
-
-            layer.addObject(poi, 0);
-        };
-        img[i].src = imagePath[i];
+    var idx = GLOBAL.POICount;
+    if (idx >= 2) {
+        return;
     }
+    var img = GLOBAL.images;
+
+    img.push(new Image());
+    console.log(img);
+    img[idx].onload = function () {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        canvas.width = img[idx].width;
+        canvas.height = img[idx].height;
+        ctx.drawImage(img[idx], 0, 0);
+
+        var poi = Module.createPoint("POI" + idx);
+        poi.setPosition(
+            new Module.JSVector3D(pos.Longitude, pos.Latitude, pos.Altitude)
+        );
+        poi.setImage(
+            ctx.getImageData(0, 0, this.width, this.height).data,
+            this.width,
+            this.height
+        );
+        poi.setText(imageText[idx]);
+
+        GLOBAL.layer.addObject(poi, 0);
+    };
+    img[idx].src = imagePath[idx];
 }
 
-function clearPOI() {}
+function clearPOI() {
+    GLOBAL.POICount = 0;
+    GLOBAL.images = [];
+    var layer = GLOBAL.layer;
+    for (let i = 0; i < 2; i++) {
+        layer.removeAtKey("POI" + i);
+    }
+    setItemValue("select_start_longitude", "-");
+    setItemValue("select_start_latitude", "-");
+    setItemValue("select_start_altitude", "-");
+    setItemValue("select_end_longitude", "-");
+    setItemValue("select_end_latitude", "-");
+    setItemValue("select_end_altitude", "-");
+}
