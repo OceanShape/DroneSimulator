@@ -32,7 +32,9 @@ function changeMode() {
 
 function keyPressCallback(event) {
     const delta = 0.0001;
-    pos = Module.getViewCamera().getLocation();
+    let camera = Module.getViewCamera()
+    let direction = camera.getDirect();
+    let pos = camera.getLocation();
 
     if (event.key === "w" || event.key === "W") {
         pos.Longitude += delta;
@@ -58,6 +60,7 @@ function keyPressCallback(event) {
         pos.Altitude,
         true
     );
+    camera.setDirect(direction)
     printDronePosition(pos);
 }
 
