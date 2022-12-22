@@ -20,6 +20,7 @@
     var layerList = new Module.JSLayerList(true);
     GLOBAL.layer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
     GLOBAL.images = [];
+    GLOBAL.POIPosition = [];
 
     setSelectMode();
 

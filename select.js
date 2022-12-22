@@ -47,8 +47,6 @@ function printPOIPosition(pos) {
     }
 }
 
-function loadPOIImage() {}
-
 function createPOI(pos) {
     var imagePath = [GLOBAL.startPOIImagePath, GLOBAL.endPOIImagePath];
     var imageText = ["START", "END"];
@@ -58,8 +56,9 @@ function createPOI(pos) {
     }
     var img = GLOBAL.images;
 
+    GLOBAL.POIPosition.push(pos);
+
     img.push(new Image());
-    console.log(img);
     img[idx].onload = function () {
         var canvas = document.createElement("canvas");
         var ctx = canvas.getContext("2d");
@@ -85,6 +84,7 @@ function createPOI(pos) {
 
 function clearPOI() {
     GLOBAL.POICount = 0;
+    GLOBAL.POIPosition = [];
     GLOBAL.images = [];
     var layer = GLOBAL.layer;
     for (let i = 0; i < 2; i++) {
