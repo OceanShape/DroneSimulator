@@ -12,18 +12,20 @@ function setDrivingMode() {
 
     control.setKeyControlEnable(false);
     control.setMouseZoomMode(false);
-    addEvent();
+    removeSelectModeEvent();
+    addDrivingModeEvent();
 
     GLOBAL.currentPath = GLOBAL.drivingModePath;
 }
 
-function printPosition(pos) {
+function printDronePosition(pos) {
     setItemValue("driving_longitude", pos.Longitude);
     setItemValue("driving_latitude", pos.Latitude);
     setItemValue("driving_altitude", pos.Altitude);
 }
 
-function printCamera(camera) {
+function printDroneCamera() {
+    let camera = Module.getViewCamera();
     setItemValue("driving_tilt", Math.floor(camera.getTilt()));
     setItemValue("driving_direct", Math.floor(camera.getDirect()));
     setItemValue("driving_fov", Math.floor(camera.getFov()));

@@ -17,7 +17,7 @@
 
     GLOBAL.canvas = Module.canvas;
 
-    GLOBAL.currentPath = GLOBAL.selectModePath;
+    setSelectMode();
 
     createPOI();
 

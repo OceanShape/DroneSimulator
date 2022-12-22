@@ -5,6 +5,7 @@ var GLOBAL = {
     selectModePath: "./menu-select-mode.html",
     startPOIImagePath: "./data/start.png",
     endPOIImagePath: "./data/end.png",
+    POICount: 0,
 };
 
 function changeMode() {
@@ -42,19 +43,38 @@ function keyPressCallback(event) {
         pos.Altitude,
         true
     );
-    printPosition(pos);
+    printDronePosition(pos);
 }
 
 function wheelCallback() {
-    printCamera(camera);
+    printDroneCamera();
 }
 
 function mouseMoveCallback() {
-    printCamera(camera);
+    printDroneCamera();
+}
+
+function mouseClickCallback(event) {
+    // 화면->지도 좌표 변환
+    var screenPosition = new Module.JSVector2D(event.x, event.y);
+    printPOIPosition(Module.getMap().ScreenToMapPointEX(screenPosition));
+
+    console.log(GLOBAL.POICount);
+
+    GLOBAL.POICount =
+        GLOBAL.POICount < 2 ? GLOBAL.POICount + 1 : GLOBAL.POICount;
 }
 
 /* 마우스 & 키보드 이벤트 설정 */
-function addEvent() {
+function addSelectModeEvent() {
+    Module.canvas.addEventListener("click", mouseClickCallback);
+}
+
+function removeSelectModeEvent() {
+    Module.canvas.removeEventListener("click", mouseClickCallback);
+}
+
+function addDrivingModeEvent() {
     window.addEventListener("keypress", keyPressCallback);
 
     Module.canvas.addEventListener("mousemove", mouseMoveCallback);
@@ -62,7 +82,7 @@ function addEvent() {
     Module.canvas.addEventListener("wheel", wheelCallback);
 }
 
-function removeEvent() {
+function removeDrivingModeEvent() {
     window.removeEventListener("keypress", keyPressCallback);
 
     Module.canvas.removeEventListener("mousemove", mouseMoveCallback);
@@ -72,5 +92,5 @@ function removeEvent() {
 
 function setItemValue(_div, _value) {
     let div = document.getElementById(_div);
-    div.value = "" + _value;
+    div.value = "" + parseFloat(_value).toFixed(6);
 }

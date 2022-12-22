@@ -12,9 +12,27 @@ function setSelectMode() {
 
     control.setKeyControlEnable(true);
     control.setMouseZoomMode(true);
-    removeEvent();
+    removeDrivingModeEvent();
+    addSelectModeEvent();
 
+    GLOBAL.POICount = 0;
     GLOBAL.currentPath = GLOBAL.selectModePath;
+}
+
+function printPOIPosition(pos) {
+    switch (GLOBAL.POICount) {
+        case 0:
+            setItemValue("select_start_longitude", pos.Longitude);
+            setItemValue("select_start_latitude", pos.Latitude);
+            setItemValue("select_start_altitude", pos.Altitude);
+            break;
+        case 1:
+            setItemValue("select_end_longitude", pos.Longitude);
+            setItemValue("select_end_latitude", pos.Latitude);
+            setItemValue("select_end_altitude", pos.Altitude);
+            break;
+        default:
+    }
 }
 
 function loadPOIImage() {}
