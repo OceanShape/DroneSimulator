@@ -27,27 +27,28 @@ function changeMode() {
 }
 
 function keyPressCallback(event) {
-    const delta = 0.0001;
+    const deltaLonLat = 0.0001;
+    const deltaAlt = 1;
     let camera = Module.getViewCamera();
     let direction = camera.getDirect();
     let pos = camera.getLocation();
 
     if (event.key === "w" || event.key === "W") {
-        pos.Longitude += delta;
+        pos.Longitude += deltaLonLat;
     } else if (event.key === "x" || event.key === "X") {
-        pos.Longitude -= delta;
+        pos.Longitude -= deltaLonLat;
     }
 
     if (event.key === "a" || event.key === "A") {
-        pos.Latitude += delta;
+        pos.Latitude += deltaLonLat;
     } else if (event.key === "d" || event.key === "D") {
-        pos.Latitude -= delta;
+        pos.Latitude -= deltaLonLat;
     }
 
     if (event.key === "c" || event.key === "C") {
-        pos.Altitude += 10;
+        pos.Altitude += deltaAlt;
     } else if (event.key === "z" || event.key === "Z") {
-        pos.Altitude -= 10;
+        pos.Altitude -= deltaAlt;
     }
 
     Module.getViewCamera().moveLonLatAlt(
