@@ -13,9 +13,7 @@ function setSelectMode() {
     control.setKeyControlEnable(true);
     control.setMouseZoomMode(true);
     removeDrivingModeEvent();
-    addSelectModeEvent();
-
-    console.log(Module.XDGetMouseState());
+    setMapMoveState();
 
     GLOBAL.currentPath = GLOBAL.selectModePath;
 }
@@ -84,6 +82,14 @@ function createPOI(pos) {
     };
 
     img[idx].src = imagePath[idx];
+}
+
+function setMapMoveState() {
+    removeSelectModeEvent();
+}
+
+function setPOISelectState() {
+    addSelectModeEvent();
 }
 
 function reset() {
