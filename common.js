@@ -16,21 +16,14 @@ function changeMode() {
     if (GLOBAL.isAllPOISet == false) {
         return;
     }
-    GLOBAL.currentPath == GLOBAL.selectModePath
-        ? setDrivingMode()
-        : setSelectMode();
-    includeHTML();
-    // if (GLOBAL.POIPosition[0] != null) {
-    //     let pos = GLOBAL.POIPosition[0];
-    //     console.log(pos);
-    //     setItemValue("select_start_longitude", pos.Longitude);
-    //     setItemValue("select_start_latitude", pos.Latitude);
-    //     setItemValue("select_start_altitude", pos.Altitude);
-    //     pos = GLOBAL.POIPosition[1];
-    //     setItemValue("select_end_longitude", pos.Longitude);
-    //     setItemValue("select_end_latitude", pos.Latitude);
-    //     setItemValue("select_end_altitude", pos.Altitude);
-    // }
+    if (GLOBAL.currentPath == GLOBAL.selectModePath) {
+        setDrivingMode();
+        includeHTML();
+    } else {
+        setSelectMode();
+        includeHTML();
+        clearPOI();
+    }
 }
 
 function keyPressCallback(event) {

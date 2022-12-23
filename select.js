@@ -85,6 +85,12 @@ function createPOI(pos) {
 }
 
 function clearPOI() {
+    setItemValue("select_start_longitude", "-");
+    setItemValue("select_start_latitude", "-");
+    setItemValue("select_start_altitude", "-");
+    setItemValue("select_end_longitude", "-");
+    setItemValue("select_end_latitude", "-");
+    setItemValue("select_end_altitude", "-");
     GLOBAL.isAllPOISet = false;
     GLOBAL.POICount = 0;
     GLOBAL.POIPosition = [];
@@ -93,10 +99,4 @@ function clearPOI() {
     for (let i = 0; i < 2; i++) {
         layer.removeAtKey("POI" + i);
     }
-    setItemValue("select_start_longitude", "-");
-    setItemValue("select_start_latitude", "-");
-    setItemValue("select_start_altitude", "-");
-    setItemValue("select_end_longitude", "-");
-    setItemValue("select_end_latitude", "-");
-    setItemValue("select_end_altitude", "-");
 }
