@@ -15,6 +15,8 @@ function setSelectMode() {
     removeDrivingModeEvent();
     addSelectModeEvent();
 
+    console.log(Module.XDGetMouseState());
+
     GLOBAL.currentPath = GLOBAL.selectModePath;
 }
 
@@ -84,13 +86,17 @@ function createPOI(pos) {
     img[idx].src = imagePath[idx];
 }
 
-function clearPOI() {
+function reset() {
+    clearPOI();
     setItemValue("select_start_longitude", "-");
     setItemValue("select_start_latitude", "-");
     setItemValue("select_start_altitude", "-");
     setItemValue("select_end_longitude", "-");
     setItemValue("select_end_latitude", "-");
     setItemValue("select_end_altitude", "-");
+}
+
+function clearPOI() {
     GLOBAL.isAllPOISet = false;
     GLOBAL.POICount = 0;
     GLOBAL.POIPosition = [];
