@@ -27,29 +27,40 @@ function changeMode() {
     }
 }
 
+function getRadians(degrees) {
+    return (degrees * Math.PI) / 180;
+}
+
 function keyPressCallback(event) {
-    const deltaLonLat = 0.0001;
+    const deltaLonLat = 0.00005;
     const deltaAlt = 1;
     let camera = Module.getViewCamera();
     let direction = camera.getDirect();
     let pos = camera.getLocation();
+    let radians = getRadians(GLOBAL.droneDirection);
+    let deltaSin = deltaLonLat * Math.sin(radians);
+    let deltaCos = deltaLonLat * Math.cos(radians);
 
     if (event.key === "w" || event.key === "W") {
-        pos.Longitude += deltaLonLat;
+        pos.Longitude += deltaSin;
+        pos.Latitude += deltaCos;
     } else if (event.key === "x" || event.key === "X") {
-        pos.Longitude -= deltaLonLat;
+        pos.Longitude -= deltaSin;
+        pos.Latitude -= deltaCos;
     }
 
     if (event.key === "a" || event.key === "A") {
-        pos.Latitude += deltaLonLat;
+        pos.Longitude -= deltaCos;
+        pos.Latitude += deltaSin;
     } else if (event.key === "d" || event.key === "D") {
-        pos.Latitude -= deltaLonLat;
+        pos.Longitude += deltaCos;
+        pos.Latitude -= deltaSin;
     }
 
     if (event.key === "q" || event.key === "Q") {
-        direction += deltaAlt;
-    } else if (event.key === "e" || event.key === "E") {
         direction -= deltaAlt;
+    } else if (event.key === "e" || event.key === "E") {
+        direction += deltaAlt;
     }
 
     if (event.key === "c" || event.key === "C") {
@@ -65,7 +76,7 @@ function keyPressCallback(event) {
         true
     );
     Module.XDRenderData();
-    console.log(direction);
+    GLOBAL.droneDirection = direction;
     camera.setDirect(direction);
     printDroneStatus();
     printDroneCamera();
