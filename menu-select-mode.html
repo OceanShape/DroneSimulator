@@ -1,36 +1,35 @@
 <label align="center">출발/도착 지점 선택</label>
-<table style="width: 250px;">
+<table style="width: 160px;">
     <td align="center" colspan="2">출발</td>
         <tr>
-            <td align="center" style="width: 50px;">경도</td>
-            <td align="center"><input id="select_start_longitude" type="text" style="width: 80%; height: 90%;" value="-"></td>
+            <td align="left" style="width: 50px;">경도</td>
+            <td align="right"><input id="select_start_longitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
         </tr>
         <tr>
-            <td align="center">위도</td>
-            <td align="center"><input id="select_start_latitude" type="text" style="width: 80%; height: 90%;" value="-"></td>
+            <td align="left">위도</td>
+            <td align="right"><input id="select_start_latitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
         </tr>
         <tr>
-            <td align="center">고도</td>
-            <td align="center"><input id="select_start_altitude" type="text" style="width: 80%; height: 90%;" value="-"></td>
+            <td align="left">고도</td>
+            <td align="right"><input id="select_start_altitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
         </tr>
     <td align="center" colspan="2">도착</td>
         <tr>
-            <td align="center" style="width: 50px;">경도</td>
-            <td align="center"><input id="select_end_longitude" type="text" style="width: 80%; height: 90%;" value="-"></td>
+            <td align="left" style="width: 50px;">경도</td>
+            <td align="right"><input id="select_end_longitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
         </tr>
         <tr>
-            <td align="center">위도</td>
-            <td align="center"><input id="select_end_latitude" type="text" style="width: 80%; height: 90%;" value="-"></td>
+            <td align="left">위도</td>
+            <td align="right"><input id="select_end_latitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
         </tr>
         <tr>
-            <td align="center">고도</td>
-            <td align="center"><input id="select_end_altitude" type="text" style="width: 80%; height: 90%;" value="-"></td>
+            <td align="left">고도</td>
+            <td align="right"><input id="select_end_altitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
         </tr>
+    <td align="center" colspan="2"> </td>
+        <tr align="center" colspan="2"><input align="center" type="radio" name="measureMode" onclick="setMapMoveState();" checked>지도 이동</tr>
+        <tr align="center" colspan="2"><input align="center" type="radio" name="measureMode" onclick="setPOISelectState();">POI 선택</tr>    
 </table>
-<p align="center">
-    <input type="radio" name="measureMode" onclick="setMapMoveState();" checked>지도 이동
-    <input type="radio" name="measureMode" onclick="setPOISelectState();">POI 선택
-</p>
 <p align="center">
     <button onclick="reset()">초기화</button>
     <button onclick="changeMode()">주행 시작</button>

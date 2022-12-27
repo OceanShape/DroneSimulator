@@ -96,6 +96,6 @@ function removeDrivingModeEvent() {
 
 function setItemValue(_div, _value) {
     let value =
-        typeof _value == Number ? "" + parseFloat(_value).toFixed(6) : _value;
+        typeof _value == "number" ? "" + parseFloat(_value).toFixed(6) : _value;
     document.getElementById(_div).value = value;
 }
