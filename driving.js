@@ -34,7 +34,7 @@ function printDroneStatus() {
 
 function printDroneCamera() {
     let camera = Module.getViewCamera();
-    setItemValue("driving_tilt", Math.floor(camera.getTilt()));
-    setItemValue("driving_direct", Math.floor(camera.getDirect()));
-    setItemValue("driving_fov", Math.floor(camera.getFov()));
+    setItemValue("driving_tilt", camera.getTilt());
+    setItemValue("driving_direct", camera.getDirect());
+    setItemValue("driving_fov", camera.getFov());
 }
