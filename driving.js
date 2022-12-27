@@ -23,7 +23,8 @@ function setDrivingMode() {
     GLOBAL.currentPath = GLOBAL.drivingModePath;
 }
 
-function printDronePosition(pos) {
+function printDronePosition() {
+    let pos = Module.getViewCamera().getLocation();
     setItemValue("driving_longitude", pos.Longitude);
     setItemValue("driving_latitude", pos.Latitude);
     setItemValue("driving_altitude", pos.Altitude);

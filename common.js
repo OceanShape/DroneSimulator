@@ -58,7 +58,7 @@ function keyPressCallback(event) {
         true
     );
     camera.setDirect(direction);
-    printDronePosition(pos);
+    printDronePosition();
 }
 
 function wheelCallback() {
