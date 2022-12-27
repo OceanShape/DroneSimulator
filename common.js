@@ -73,6 +73,7 @@ function keyPressCallback(event) {
 
     if (event.key === "s" || event.key === "S") {
         direction = GLOBAL.droneDirection;
+        camera.setTilt(10);
     }
 
     Module.getViewCamera().moveLonLatAlt(
