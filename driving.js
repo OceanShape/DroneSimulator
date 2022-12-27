@@ -14,6 +14,7 @@ function setDrivingMode() {
         true
     );
     camera.look(startPos, endPos);
+    GLOBAL.droneDirection = camera.getDirect();
 
     control.setKeyControlEnable(false);
     control.setMouseZoomMode(false);
@@ -24,12 +25,11 @@ function setDrivingMode() {
 }
 
 function printDroneStatus() {
-    let camera = Module.getViewCamera();
-    let pos = camera.getLocation();
+    let pos = Module.getViewCamera().getLocation();
     setItemValue("driving_longitude", pos.Longitude);
     setItemValue("driving_latitude", pos.Latitude);
     setItemValue("driving_altitude", pos.Altitude);
-    setItemValue("driving_drone_direct", camera.getDirect());
+    setItemValue("driving_drone_direct", GLOBAL.droneDirection);
 }
 
 function printDroneCamera() {

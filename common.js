@@ -58,8 +58,10 @@ function keyPressCallback(event) {
     }
 
     if (event.key === "q" || event.key === "Q") {
+        GLOBAL.droneDirection -= deltaAlt;
         direction -= deltaAlt;
     } else if (event.key === "e" || event.key === "E") {
+        GLOBAL.droneDirection += deltaAlt;
         direction += deltaAlt;
     }
 
@@ -69,6 +71,10 @@ function keyPressCallback(event) {
         pos.Altitude -= deltaAlt;
     }
 
+    if (event.key === "s" || event.key === "S") {
+        direction = GLOBAL.droneDirection;
+    }
+
     Module.getViewCamera().moveLonLatAlt(
         pos.Longitude,
         pos.Latitude,
@@ -76,7 +82,6 @@ function keyPressCallback(event) {
         true
     );
     Module.XDRenderData();
-    GLOBAL.droneDirection = direction;
     camera.setDirect(direction);
     printDroneStatus();
     printDroneCamera();
