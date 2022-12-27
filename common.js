@@ -10,6 +10,7 @@ var GLOBAL = {
     images: null,
     POIPosition: null,
     isAllPOISet: false,
+    droneDirection: 0.0,
 };
 
 function changeMode() {
@@ -45,6 +46,12 @@ function keyPressCallback(event) {
         pos.Latitude -= deltaLonLat;
     }
 
+    if (event.key === "q" || event.key === "Q") {
+        direction += deltaAlt;
+    } else if (event.key === "e" || event.key === "E") {
+        direction -= deltaAlt;
+    }
+
     if (event.key === "c" || event.key === "C") {
         pos.Altitude += deltaAlt;
     } else if (event.key === "z" || event.key === "Z") {
@@ -57,8 +64,11 @@ function keyPressCallback(event) {
         pos.Altitude,
         true
     );
+    Module.XDRenderData();
+    console.log(direction);
     camera.setDirect(direction);
-    printDronePosition();
+    printDroneStatus();
+    printDroneCamera();
 }
 
 function wheelCallback() {

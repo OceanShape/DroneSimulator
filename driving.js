@@ -23,11 +23,13 @@ function setDrivingMode() {
     GLOBAL.currentPath = GLOBAL.drivingModePath;
 }
 
-function printDronePosition() {
-    let pos = Module.getViewCamera().getLocation();
+function printDroneStatus() {
+    let camera = Module.getViewCamera();
+    let pos = camera.getLocation();
     setItemValue("driving_longitude", pos.Longitude);
     setItemValue("driving_latitude", pos.Latitude);
     setItemValue("driving_altitude", pos.Altitude);
+    setItemValue("driving_drone_direct", camera.getDirect());
 }
 
 function printDroneCamera() {
