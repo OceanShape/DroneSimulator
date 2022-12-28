@@ -13,6 +13,10 @@ var GLOBAL = {
     droneDirection: 0.0,
 };
 
+function getRadians(degrees) {
+    return (degrees * Math.PI) / 180;
+}
+
 function changeMode() {
     if (GLOBAL.isAllPOISet == false) {
         return;
@@ -25,10 +29,6 @@ function changeMode() {
         includeHTML();
         clearPOI();
     }
-}
-
-function getRadians(degrees) {
-    return (degrees * Math.PI) / 180;
 }
 
 function keyPressCallback(event) {
@@ -88,7 +88,17 @@ function keyPressCallback(event) {
     printDroneCamera();
 }
 
-function wheelCallback() {
+function mouseWheelCallback(event) {
+    let deltaFOV = 1;
+    let camera = Module.getViewCamera();
+    let fov = camera.getFov();
+
+    event.deltaY > 0 ? (fov += deltaFOV) : (fov -= deltaFOV);
+
+    if (fov < 10) fov = 10;
+    else if (fov > 90) fov = 90;
+
+    camera.setFov(fov);
     printDroneCamera();
 }
 
@@ -110,7 +120,7 @@ function addDrivingModeEvent() {
 
     Module.canvas.addEventListener("mousemove", mouseMoveCallback);
 
-    Module.canvas.addEventListener("wheel", wheelCallback);
+    Module.canvas.addEventListener("mousewheel", mouseWheelCallback);
 }
 
 function removeDrivingModeEvent() {
@@ -118,7 +128,7 @@ function removeDrivingModeEvent() {
 
     Module.canvas.removeEventListener("mousemove", mouseMoveCallback);
 
-    Module.canvas.removeEventListener("wheel", wheelCallback);
+    Module.canvas.removeEventListener("mousewheel", mouseWheelCallback);
 }
 
 function setItemValue(_div, _value) {

@@ -9,6 +9,7 @@ function setSelectMode() {
     camera.setMoveMode(false);
     camera.moveLonLatAlt(lon, lat, alt, true);
     camera.setTilt(90.0);
+    camera.setFov(30);
 
     control.setKeyControlEnable(true);
     control.setMouseZoomMode(true);
