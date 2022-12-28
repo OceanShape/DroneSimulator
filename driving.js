@@ -1,4 +1,3 @@
-// POI 가시 거리 늘리는 법 찾아서 추가하기
 function setDrivingMode() {
     let camera = Module.getViewCamera();
     let control = Module.getControl();
