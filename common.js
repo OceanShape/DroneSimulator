@@ -17,6 +17,10 @@ function getRadians(degrees) {
     return (degrees * Math.PI) / 180;
 }
 
+function clamp(num, a, b) {
+    return Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
+}
+
 function changeMode() {
     if (GLOBAL.isAllPOISet == false) {
         return;
@@ -40,6 +44,8 @@ function keyPressCallback(event) {
     let radians = getRadians(GLOBAL.droneDirection);
     let deltaSin = deltaLonLat * Math.sin(radians);
     let deltaCos = deltaLonLat * Math.cos(radians);
+
+    console.log(event.key);
 
     if (event.key === "w" || event.key === "W") {
         pos.Longitude += deltaSin;
@@ -94,9 +100,7 @@ function mouseWheelCallback(event) {
     let fov = camera.getFov();
 
     event.deltaY > 0 ? (fov += deltaFOV) : (fov -= deltaFOV);
-
-    if (fov < 10) fov = 10;
-    else if (fov > 90) fov = 90;
+    fov = clamp(fov, 10, 90);
 
     camera.setFov(fov);
     printDroneCamera();
@@ -116,7 +120,7 @@ function removeSelectModeEvent() {
 }
 
 function addDrivingModeEvent() {
-    window.addEventListener("keypress", keyPressCallback);
+    window.addEventListener("keydown", keyPressCallback);
 
     Module.canvas.addEventListener("mousemove", mouseMoveCallback);
 
