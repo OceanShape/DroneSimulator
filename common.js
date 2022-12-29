@@ -11,6 +11,7 @@ var GLOBAL = {
     POIPosition: null,
     isAllPOISet: false,
     droneDirection: 0.0,
+    keys: [],
 };
 
 function getRadians(degrees) {
@@ -35,7 +36,16 @@ function changeMode() {
     }
 }
 
+function keyReleaseCallback(event) {
+    GLOBAL.keys[event.key] = false;
+    for (key in GLOBAL.keys) {
+        GLOBAL.keys[key] ? true : delete GLOBAL.keys[key];
+    }
+}
+
 function keyPressCallback(event) {
+    GLOBAL.keys[event.key] = true;
+
     const deltaLonLat = 0.00005;
     const deltaAlt = 1;
     let camera = Module.getViewCamera();
@@ -45,39 +55,37 @@ function keyPressCallback(event) {
     let deltaSin = deltaLonLat * Math.sin(radians);
     let deltaCos = deltaLonLat * Math.cos(radians);
 
-    console.log(event.key);
-
-    if (event.key === "w" || event.key === "W") {
+    if (GLOBAL.keys["w"]) {
         pos.Longitude += deltaSin;
         pos.Latitude += deltaCos;
-    } else if (event.key === "x" || event.key === "X") {
+    } else if (GLOBAL.keys["x"]) {
         pos.Longitude -= deltaSin;
         pos.Latitude -= deltaCos;
     }
 
-    if (event.key === "a" || event.key === "A") {
+    if (GLOBAL.keys["a"]) {
         pos.Longitude -= deltaCos;
         pos.Latitude += deltaSin;
-    } else if (event.key === "d" || event.key === "D") {
+    } else if (GLOBAL.keys["d"]) {
         pos.Longitude += deltaCos;
         pos.Latitude -= deltaSin;
     }
 
-    if (event.key === "q" || event.key === "Q") {
+    if (GLOBAL.keys["q"]) {
         GLOBAL.droneDirection -= deltaAlt;
         direction -= deltaAlt;
-    } else if (event.key === "e" || event.key === "E") {
+    } else if (GLOBAL.keys["e"]) {
         GLOBAL.droneDirection += deltaAlt;
         direction += deltaAlt;
     }
 
-    if (event.key === "c" || event.key === "C") {
+    if (GLOBAL.keys["c"]) {
         pos.Altitude += deltaAlt;
-    } else if (event.key === "z" || event.key === "Z") {
+    } else if (GLOBAL.keys["z"]) {
         pos.Altitude -= deltaAlt;
     }
 
-    if (event.key === "s" || event.key === "S") {
+    if (GLOBAL.keys["s"]) {
         direction = GLOBAL.droneDirection;
         camera.setTilt(10);
     }
@@ -120,7 +128,8 @@ function removeSelectModeEvent() {
 }
 
 function addDrivingModeEvent() {
-    window.addEventListener("keydown", keyPressCallback);
+    window.addEventListener("keypress", keyPressCallback);
+    window.addEventListener("keyup", keyReleaseCallback);
 
     Module.canvas.addEventListener("mousemove", mouseMoveCallback);
 
