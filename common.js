@@ -98,6 +98,7 @@ function keyPressCallback(event) {
     );
     Module.XDRenderData();
     camera.setDirect(direction);
+    GLOBAL.droneDirection = direction;
     printDroneStatus();
     printDroneCamera();
 }
