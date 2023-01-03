@@ -32,30 +32,28 @@
         )
     );
 
-    includeHTML(GLOBAL.selectModePath);
+    includeHTML("menu", GLOBAL.selectModePath);
 }
 
 // HTML include
-function includeHTML(filePath) {
-    var includeElements = document.getElementsByClassName("include-html");
-    for (var element of includeElements) {
-        var xhttp;
-        if (filePath) {
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4) {
-                    if (this.status == 200) {
-                        element.innerHTML = this.responseText;
-                    }
-                    if (this.status == 404) {
-                        element.innerHTML = "Page not found.";
-                    }
+function includeHTML(id, filePath) {
+    var element = document.getElementById(id);
+    var xhttp;
+    if (filePath) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    element.innerHTML = this.responseText;
                 }
-            };
-            xhttp.open("GET", filePath, true);
-            xhttp.send();
-            return;
-        }
+                if (this.status == 404) {
+                    element.innerHTML = "Page not found.";
+                }
+            }
+        };
+        xhttp.open("GET", filePath, true);
+        xhttp.send();
+        return;
     }
 }
 

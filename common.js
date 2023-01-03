@@ -6,8 +6,8 @@ const Mode = {
 let GLOBAL = {
     engineDirectory: "./engine/",
     currentMode: Mode.SELECT,
-    drivingModePath: "./driving-mode.html",
-    selectModePath: "./select-mode.html",
+    drivingModePath: "./driving.html",
+    selectModePath: "./select.html",
     startPOIImagePath: "./data/start.png",
     endPOIImagePath: "./data/end.png",
     POICount: 0,
@@ -35,10 +35,12 @@ function changeMode() {
     }
     if (GLOBAL.currentMode == Mode.SELECT) {
         setDrivingMode();
-        includeHTML(GLOBAL.drivingModePath);
+        includeHTML("menu", GLOBAL.drivingModePath);
+        includeHTML("driving-status", "./driving-status.html");
+        includeHTML("driving-minimap", GLOBAL.selectModePath);
     } else {
         setSelectMode();
-        includeHTML(GLOBAL.selectModePath);
+        includeHTML("menu", GLOBAL.selectModePath);
         clearPOI();
     }
 }
