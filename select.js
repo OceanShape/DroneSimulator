@@ -16,7 +16,7 @@ function setSelectMode() {
     removeDrivingModeEvent();
     setMapMoveState();
 
-    GLOBAL.currentPath = GLOBAL.selectModePath;
+    GLOBAL.currentMode = Mode.SELECT;
 }
 
 function mouseClickCallback(event) {

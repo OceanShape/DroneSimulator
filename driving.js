@@ -20,7 +20,7 @@ function setDrivingMode() {
     removeSelectModeEvent();
     addDrivingModeEvent();
 
-    GLOBAL.currentPath = GLOBAL.drivingModePath;
+    GLOBAL.currentMode = Mode.DRIVING;
 }
 
 function printDroneStatus() {

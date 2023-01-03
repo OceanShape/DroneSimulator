@@ -15,8 +15,6 @@
         15
     );
 
-    GLOBAL.canvas = Module.canvas;
-
     var layerList = new Module.JSLayerList(true);
     GLOBAL.layer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
     GLOBAL.layer.setMinDistance(0.0);
@@ -34,16 +32,15 @@
         )
     );
 
-    includeHTML();
+    includeHTML(GLOBAL.selectModePath);
 }
 
 // HTML include
-function includeHTML() {
+function includeHTML(filePath) {
     var includeElements = document.getElementsByClassName("include-html");
     for (var element of includeElements) {
         var xhttp;
-        var file = GLOBAL.currentPath;
-        if (file) {
+        if (filePath) {
             xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4) {
@@ -55,7 +52,7 @@ function includeHTML() {
                     }
                 }
             };
-            xhttp.open("GET", file, true);
+            xhttp.open("GET", filePath, true);
             xhttp.send();
             return;
         }

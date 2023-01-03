@@ -1,6 +1,11 @@
-var GLOBAL = {
+const Mode = {
+    SELECT: "Select",
+    DRIVING: "Driving",
+};
+
+let GLOBAL = {
     engineDirectory: "./engine/",
-    currentPath: null,
+    currentMode: Mode.SELECT,
     drivingModePath: "./driving-mode.html",
     selectModePath: "./select-mode.html",
     startPOIImagePath: "./data/start.png",
@@ -14,6 +19,8 @@ var GLOBAL = {
     keys: [],
 };
 
+Object.freeze(Mode);
+
 function getRadians(degrees) {
     return (degrees * Math.PI) / 180;
 }
@@ -26,12 +33,12 @@ function changeMode() {
     if (GLOBAL.isAllPOISet == false) {
         return;
     }
-    if (GLOBAL.currentPath == GLOBAL.selectModePath) {
+    if (GLOBAL.currentMode == Mode.SELECT) {
         setDrivingMode();
-        includeHTML();
+        includeHTML(GLOBAL.drivingModePath);
     } else {
         setSelectMode();
-        includeHTML();
+        includeHTML(GLOBAL.selectModePath);
         clearPOI();
     }
 }
