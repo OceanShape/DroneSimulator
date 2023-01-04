@@ -35,12 +35,10 @@ function changeMode() {
     }
     if (GLOBAL.currentMode == Mode.SELECT) {
         setDrivingMode();
-        includeHTML("menu", GLOBAL.drivingModePath);
-        includeHTML("driving-status", "./driving-status.html");
-        includeHTML("driving-minimap", GLOBAL.selectModePath);
+        includeHTML();
     } else {
         setSelectMode();
-        includeHTML("menu", GLOBAL.selectModePath);
+        includeHTML();
         clearPOI();
     }
 }

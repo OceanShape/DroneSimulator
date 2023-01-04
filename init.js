@@ -32,28 +32,34 @@
         )
     );
 
-    includeHTML("menu", GLOBAL.selectModePath);
+    includeHTML();
 }
 
 // HTML include
-function includeHTML(id, filePath) {
-    var element = document.getElementById(id);
-    var xhttp;
-    if (filePath) {
-        xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    element.innerHTML = this.responseText;
+function includeHTML() {
+    var includeElements = document.getElementsByClassName("include-html");
+    for (var element of includeElements) {
+        var xhttp;
+        var file =
+            GLOBAL.currentMode == Mode.SELECT
+                ? GLOBAL.selectModePath
+                : GLOBAL.drivingModePath;
+        if (file) {
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        element.innerHTML = this.responseText;
+                    }
+                    if (this.status == 404) {
+                        element.innerHTML = "Page not found.";
+                    }
                 }
-                if (this.status == 404) {
-                    element.innerHTML = "Page not found.";
-                }
-            }
-        };
-        xhttp.open("GET", filePath, true);
-        xhttp.send();
-        return;
+            };
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            return;
+        }
     }
 }
 
