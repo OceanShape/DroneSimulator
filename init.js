@@ -1,4 +1,6 @@
-﻿function init() {
+﻿//import * as model from "./model-loader.js";
+
+function init() {
     Module.Start(window.innerWidth, window.innerHeight);
 
     var camera = Module.getViewCamera();

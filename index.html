@@ -2,12 +2,23 @@
 <html>
 <head>
 	<title>XDWorldEM</title>
+	<script type="importmap">
+        {
+            "imports": {
+				"GLTFLoader": "https://unpkg.com/three@0.138.0/examples/jsm/loaders/GLTFLoader.js",
+                "three": "https://unpkg.com/three@0.141.0/build/three.module.js",
+                "OrbitControls": "https://unpkg.com/three@0.141.0/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
 </head>
 <body>
+	<script type="module" src="model-loader.js"></script>
 	<script src="common.js"></script>
 	<script src="select.js"></script>
 	<script src="driving.js"></script>
 	<script src="init.js"></script>
 	<div class="include-html" style="position: absolute; background-color: white; opacity: 0.9; border-radius: 10px; margin: 10px; padding: 15px;"></div>
+	<canvas id="model-loader" style="position: fixed; right: 10px; bottom: 10px; width: 300px; height: 300px;"></canvas>
 </body>
 </html>
