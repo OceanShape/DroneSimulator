@@ -1,5 +1,5 @@
 function setSelectMode() {
-    let camera = Module.getViewCamera();
+    let camera = GLOBAL.camera;
     let control = Module.getControl();
 
     lon = 126.91534283205316;

@@ -1,26 +1,3 @@
-const Mode = {
-    SELECT: "Select",
-    DRIVING: "Driving",
-};
-
-let GLOBAL = {
-    engineDirectory: "./engine/",
-    currentMode: Mode.SELECT,
-    drivingModePath: "./driving.html",
-    selectModePath: "./select.html",
-    startPOIImagePath: "./data/start.png",
-    endPOIImagePath: "./data/end.png",
-    POICount: 0,
-    layer: null,
-    images: null,
-    POIPosition: null,
-    isAllPOISet: false,
-    droneDirection: 0.0,
-    keys: [],
-};
-
-Object.freeze(Mode);
-
 function getRadians(degrees) {
     return (degrees * Math.PI) / 180;
 }
@@ -55,7 +32,7 @@ function keyPressCallback(event) {
 
     const deltaLonLat = 0.00005;
     const deltaAlt = 1;
-    let camera = Module.getViewCamera();
+    let camera = GLOBAL.camera;
     let direction = camera.getDirect();
     let pos = camera.getLocation();
     let radians = getRadians(GLOBAL.droneDirection);
@@ -97,12 +74,7 @@ function keyPressCallback(event) {
         camera.setTilt(10);
     }
 
-    Module.getViewCamera().moveLonLatAlt(
-        pos.Longitude,
-        pos.Latitude,
-        pos.Altitude,
-        true
-    );
+    camera.moveLonLatAlt(pos.Longitude, pos.Latitude, pos.Altitude, true);
     Module.XDRenderData();
     camera.setDirect(direction);
     GLOBAL.droneDirection = direction;
@@ -112,7 +84,7 @@ function keyPressCallback(event) {
 
 function mouseWheelCallback(event) {
     let deltaFOV = 1;
-    let camera = Module.getViewCamera();
+    let camera = GLOBAL.camera;
     let fov = camera.getFov();
 
     event.deltaY > 0 ? (fov += deltaFOV) : (fov -= deltaFOV);

@@ -7,14 +7,38 @@
             "imports": {
 				"GLTFLoader": "https://unpkg.com/three@0.138.0/examples/jsm/loaders/GLTFLoader.js",
                 "three": "https://unpkg.com/three@0.141.0/build/three.module.js",
-                "OrbitControls": "https://unpkg.com/three@0.141.0/examples/jsm/controls/OrbitControls.js"
+				"OrbitControls": "https://unpkg.com/three@0.141.0/examples/jsm/controls/OrbitControls.js"
             }
         }
     </script>
 </head>
 <body>
-	<script type="module" src="model-loader.js"></script>
+	<script>
+		const Mode = {
+			SELECT: "Select",
+			DRIVING: "Driving",
+		};
+
+		let GLOBAL = {
+			engineDirectory: "./engine/",
+			currentMode: Mode.SELECT,
+			drivingModePath: "./driving.html",
+			selectModePath: "./select.html",
+			startPOIImagePath: "./data/start.png",
+			endPOIImagePath: "./data/end.png",
+			camera: null,
+			POICount: 0,
+			layer: null,
+			images: null,
+			POIPosition: null,
+			isAllPOISet: false,
+			droneDirection: 0.0,
+			keys: [],
+		};
+		Object.freeze(Mode);
+	</script>
 	<script src="common.js"></script>
+	<script type="module" src="model-loader.js"></script>
 	<script src="select.js"></script>
 	<script src="driving.js"></script>
 	<script src="init.js"></script>

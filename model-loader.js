@@ -2,18 +2,13 @@ import { GLTFLoader } from "GLTFLoader";
 import * as THREE from "three";
 import { OrbitControls } from "OrbitControls";
 
-let GLOBAL = {
-    camera: null,
-};
-
-function reset() {
-    let camera;
+function reset(camera) {
     camera.position.set(0, 0, -20);
     camera.lookAt(0, 0, 0);
 }
 
 function updateModel() {
-    console.log("TEST");
+    console.log("update model");
 }
 
 (function initModelLoader() {
@@ -28,11 +23,10 @@ function updateModel() {
     });
     renderer.outputEncoding = THREE.sRGBEncoding;
 
-    GLOBAL.camera = new THREE.PerspectiveCamera(30, 1);
-    let camera = GLOBAL.camera;
+    let camera = new THREE.PerspectiveCamera(30, 1);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.listenToKeyEvents(document.body);
+    // const controls = new OrbitControls(camera, renderer.domElement);
+    // controls.listenToKeyEvents(document.body);
 
     camera.position.set(0, 0, -20);
     camera.lookAt(0, 0, 0);
@@ -63,6 +57,7 @@ function updateModel() {
 
     function animate() {
         requestAnimationFrame(animate);
+        updateModel();
         //controls.update()
         renderer.render(scene, camera);
     }

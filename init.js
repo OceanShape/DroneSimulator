@@ -3,7 +3,8 @@
 function init() {
     Module.Start(window.innerWidth, window.innerHeight);
 
-    var camera = Module.getViewCamera();
+    GLOBAL.camera = Module.getViewCamera();
+    camera = GLOBAL.camera;
 
     Module.XDEMapCreateLayer(
         "facility_build",
