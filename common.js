@@ -1,7 +1,3 @@
-function getRadians(degrees) {
-    return (degrees * Math.PI) / 180;
-}
-
 function clamp(num, a, b) {
     return Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
 }

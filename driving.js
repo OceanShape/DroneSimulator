@@ -21,6 +21,8 @@ function setDrivingMode() {
     addDrivingModeEvent();
 
     GLOBAL.currentMode = Mode.DRIVING;
+
+    document.getElementById("model-loader").style.visibility = "visible";
 }
 
 function printDroneStatus() {

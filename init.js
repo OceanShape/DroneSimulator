@@ -36,6 +36,7 @@ function init() {
     );
 
     includeHTML();
+    document.getElementById("model-loader").style.visibility = "hidden";
 }
 
 // HTML include

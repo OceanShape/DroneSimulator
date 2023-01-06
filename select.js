@@ -17,6 +17,8 @@ function setSelectMode() {
     setMapMoveState();
 
     GLOBAL.currentMode = Mode.SELECT;
+
+    document.getElementById("model-loader").style.visibility = "hidden";
 }
 
 function mouseClickCallback(event) {

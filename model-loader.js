@@ -7,8 +7,18 @@ function reset(camera) {
     camera.lookAt(0, 0, 0);
 }
 
-function updateModel() {
-    console.log("update model");
+function updateCamera(camera) {
+    if (GLOBAL.currentMode == Mode.DRIVING) {
+        let droneCamera = GLOBAL.camera;
+        let droneDirection = GLOBAL.droneDirection;
+        let angle = getRadians(droneCamera.getDirect() - droneDirection);
+        camera.position.x = -GLOBAL.radius * Math.sin(-angle);
+        camera.position.z = -GLOBAL.radius * Math.cos(-angle);
+        camera.position.y =
+            GLOBAL.radius * Math.sin(getRadians(droneCamera.getTilt()));
+
+        camera.lookAt(0, 0, 0);
+    }
 }
 
 (function initModelLoader() {
@@ -28,23 +38,8 @@ function updateModel() {
     // const controls = new OrbitControls(camera, renderer.domElement);
     // controls.listenToKeyEvents(document.body);
 
-    camera.position.set(0, 0, -20);
+    camera.position.set(0, 0, -GLOBAL.radius);
     camera.lookAt(0, 0, 0);
-
-    window.addEventListener("keydown", test, false);
-
-    function test(event) {
-        let pos = camera.position;
-        let x = pos.x;
-        let y = pos.y;
-        let z = pos.z;
-        if (event.key == "r") {
-            camera.position.set(0, 0, -20);
-            camera.lookAt(0, 0, 0);
-        } else if (event.key == "d") {
-            camera.position.set(x, y + 1, z);
-        }
-    }
 
     let light = new THREE.DirectionalLight(0xffffff, 10); //조명
     scene.add(light);
@@ -57,8 +52,8 @@ function updateModel() {
 
     function animate() {
         requestAnimationFrame(animate);
-        updateModel();
-        //controls.update()
+        updateCamera(camera);
+        //controls.update();
         renderer.render(scene, camera);
     }
     animate();
