@@ -16,6 +16,22 @@ function changeMode() {
     }
 }
 
+function setDroneDirection(activate) {
+    if (activate == false) {
+        clearInterval(GLOBAL.droneDirectionIntervalID);
+    } else {
+        GLOBAL.droneDirectionIntervalID = setInterval(function () {
+            let direction = GLOBAL.camera.getDirect();
+            if (Math.abs(direction - GLOBAL.preCameraDirection) < 0.000001) {
+                clearInterval(GLOBAL.droneDirectionIntervalID);
+                GLOBAL.droneDirection = direction;
+            }
+            GLOBAL.preCameraDirection = direction;
+            console.log("TEST");
+        }, 300);
+    }
+}
+
 function keyReleaseCallback(event) {
     GLOBAL.keys[event.key] = false;
     for (key in GLOBAL.keys) {

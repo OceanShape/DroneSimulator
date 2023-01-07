@@ -11,12 +11,14 @@ function updateCamera(camera) {
     if (GLOBAL.currentMode == Mode.DRIVING) {
         let droneCamera = GLOBAL.camera;
         let droneDirection = GLOBAL.droneDirection;
-        let angle = getRadians(droneCamera.getDirect() - droneDirection);
-        camera.position.x = -GLOBAL.radius * Math.sin(-angle);
-        camera.position.z = -GLOBAL.radius * Math.cos(-angle);
-        camera.position.y =
-            GLOBAL.radius * Math.sin(getRadians(droneCamera.getTilt()));
-
+        let direct = getRadians(droneCamera.getDirect() - droneDirection);
+        let tilt = getRadians(droneCamera.getTilt());
+        let tiltAbs = getRadians(Math.abs(droneCamera.getTilt()));
+        camera.position.x =
+            -GLOBAL.radius * Math.cos(tiltAbs) * Math.sin(-direct);
+        camera.position.z =
+            -GLOBAL.radius * Math.cos(tiltAbs) * Math.cos(-direct);
+        camera.position.y = GLOBAL.radius * Math.sin(tilt);
         camera.lookAt(0, 0, 0);
     }
 }

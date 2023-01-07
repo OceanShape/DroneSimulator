@@ -16,6 +16,8 @@ function setSelectMode() {
     removeDrivingModeEvent();
     setMapMoveState();
 
+    setDroneDirection(false);
+
     GLOBAL.currentMode = Mode.SELECT;
 
     document.getElementById("model-loader").style.visibility = "hidden";

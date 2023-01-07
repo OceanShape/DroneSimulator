@@ -13,12 +13,14 @@ function setDrivingMode() {
         true
     );
     GLOBAL.camera.look(startPos, endPos);
-    GLOBAL.droneDirection = GLOBAL.camera.getDirect();
+    // set drone direction code is in common.js
 
     control.setKeyControlEnable(false);
     control.setMouseZoomMode(false);
     removeSelectModeEvent();
     addDrivingModeEvent();
+
+    setDroneDirection(true);
 
     GLOBAL.currentMode = Mode.DRIVING;
 
