@@ -47,7 +47,7 @@ function updateCamera(camera) {
     scene.add(light);
 
     let loader = new GLTFLoader();
-    loader.load("drone/scene.gltf", function (gltf) {
+    loader.load("./data/drone/scene.gltf", function (gltf) {
         scene.add(gltf.scene);
         renderer.render(scene, camera);
     });
