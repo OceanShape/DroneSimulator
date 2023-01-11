@@ -98,7 +98,7 @@ function setPOISelectState() {
 }
 
 function reset() {
-    clearPOI();
+    clearIndicator();
     setItemValue("select_start_longitude", "-");
     setItemValue("select_start_latitude", "-");
     setItemValue("select_start_altitude", "-");
@@ -107,7 +107,7 @@ function reset() {
     setItemValue("select_end_altitude", "-");
 }
 
-function clearPOI() {
+function clearIndicator() {
     GLOBAL.isAllPOISet = false;
     GLOBAL.POICount = 0;
     GLOBAL.POIPosition = [];
@@ -116,4 +116,5 @@ function clearPOI() {
     for (let i = 0; i < 2; i++) {
         layer.removeAtKey("POI" + i);
     }
+    layer.removeAtKey("ARROW");
 }

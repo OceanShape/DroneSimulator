@@ -1,5 +1,4 @@
 function setDrivingMode() {
-    let camera = GLOBAL.camera;
     let control = Module.getControl();
     let startPos = GLOBAL.POIPosition[0];
     let endPos = GLOBAL.POIPosition[1];
@@ -15,6 +14,8 @@ function setDrivingMode() {
     GLOBAL.camera.look(startPos, endPos);
     // set drone direction code is in common.js
 
+    drawArrow(endPos);
+
     control.setKeyControlEnable(false);
     control.setMouseZoomMode(false);
     removeSelectModeEvent();
@@ -25,6 +26,24 @@ function setDrivingMode() {
     GLOBAL.currentMode = Mode.DRIVING;
 
     document.getElementById("model-loader").style.visibility = "visible";
+}
+
+function drawArrow(target) {
+    target.Altitude += 30;
+
+    let arrow = Module.CreateArrow("ARROW");
+    arrow.Create(
+        target,
+        0.0,
+        90.0,
+        10,
+        5,
+        0.1,
+        3.0,
+        new Module.JSColor(255, 255, 0, 0)
+    );
+
+    GLOBAL.layer.addObject(arrow, 0);
 }
 
 function printDroneStatus() {

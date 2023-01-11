@@ -12,7 +12,7 @@ function changeMode() {
     } else {
         setSelectMode();
         includeHTML();
-        clearPOI();
+        clearIndicator();
     }
 }
 
@@ -27,7 +27,6 @@ function setDroneDirection(activate) {
                 GLOBAL.droneDirection = direction;
             }
             GLOBAL.preCameraDirection = direction;
-            console.log("TEST");
         }, 300);
     }
 }
@@ -89,7 +88,6 @@ function keyPressCallback(event) {
     camera.moveLonLatAlt(pos.Longitude, pos.Latitude, pos.Altitude, true);
     Module.XDRenderData();
     camera.setDirect(direction);
-    GLOBAL.droneDirection = direction;
     printDroneStatus();
     printDroneCamera();
 }
