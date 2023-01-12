@@ -47,49 +47,54 @@ function keyPressCallback(event) {
     let direction = camera.getDirect();
     let pos = camera.getLocation();
     let radians = getRadians(GLOBAL.droneDirection);
-    let deltaSin = deltaLonLat * Math.sin(radians);
-    let deltaCos = deltaLonLat * Math.cos(radians);
+
+    let delRight = 0.0;
+    let delFront = 0.0;
+    let delUp = 0.0;
 
     if (GLOBAL.keys["w"]) {
-        pos.Longitude += deltaSin;
-        pos.Latitude += deltaCos;
-    } else if (GLOBAL.keys["x"]) {
-        pos.Longitude -= deltaSin;
-        pos.Latitude -= deltaCos;
+        delFront = deltaLonLat;
+    }
+    if (GLOBAL.keys["x"]) {
+        delFront = -deltaLonLat;
     }
 
+    if (GLOBAL.keys["d"]) {
+        delRight = deltaLonLat;
+    }
     if (GLOBAL.keys["a"]) {
-        pos.Longitude -= deltaCos;
-        pos.Latitude += deltaSin;
-    } else if (GLOBAL.keys["d"]) {
-        pos.Longitude += deltaCos;
-        pos.Latitude -= deltaSin;
-    }
-
-    if (GLOBAL.keys["q"]) {
-        GLOBAL.droneDirection -= deltaAlt;
-        direction -= deltaAlt;
-    } else if (GLOBAL.keys["e"]) {
-        GLOBAL.droneDirection += deltaAlt;
-        direction += deltaAlt;
+        delRight = -deltaLonLat;
     }
 
     if (GLOBAL.keys["c"]) {
-        pos.Altitude += deltaAlt;
-    } else if (GLOBAL.keys["z"]) {
-        pos.Altitude -= deltaAlt;
+        delUp = deltaAlt;
+    }
+    if (GLOBAL.keys["z"]) {
+        delUp = -deltaAlt;
     }
 
-    if (GLOBAL.keys["s"]) {
-        direction = GLOBAL.droneDirection;
-        camera.setTilt(10);
-    }
+    // if (GLOBAL.keys["q"]) {
+    //     GLOBAL.droneDirection -= deltaAlt;
+    //     direction -= deltaAlt;
+    // } else if (GLOBAL.keys["e"]) {
+    //     GLOBAL.droneDirection += deltaAlt;
+    //     direction += deltaAlt;
+    // }
 
-    camera.moveLonLatAlt(pos.Longitude, pos.Latitude, pos.Altitude, true);
+    // if (GLOBAL.keys["s"]) {
+    //     direction = GLOBAL.droneDirection;
+    //     camera.setTilt(10);
+    // }
+
+    GLOBAL.TRACE_TARGET.moveTarget({
+        left: delRight,
+        front: delFront,
+        up: delUp,
+    });
+
     Module.XDRenderData();
-    camera.setDirect(direction);
-    printDroneStatus();
-    printDroneCamera();
+    // printDroneStatus();
+    // printDroneCamera();
 }
 
 function mouseWheelCallback(event) {
