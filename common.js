@@ -41,56 +41,42 @@ function keyReleaseCallback(event) {
 function keyPressCallback(event) {
     GLOBAL.keys[event.key] = true;
 
-    const deltaLonLat = 0.00005;
-    const deltaAlt = 1;
     let camera = GLOBAL.camera;
     let direction = camera.getDirect();
-    let pos = camera.getLocation();
-    let radians = getRadians(GLOBAL.droneDirection);
-
-    let delRight = 0.0;
-    let delFront = 0.0;
-    let delUp = 0.0;
 
     if (GLOBAL.keys["w"]) {
-        delFront = deltaLonLat;
+        GLOBAL.TRACE_TARGET.moveTarget({ front: 1.5 });
     }
     if (GLOBAL.keys["x"]) {
-        delFront = -deltaLonLat;
+        GLOBAL.TRACE_TARGET.moveTarget({ back: 1.5 });
     }
 
     if (GLOBAL.keys["d"]) {
-        delRight = deltaLonLat;
+        GLOBAL.TRACE_TARGET.moveTarget({ right: 1.5 });
     }
     if (GLOBAL.keys["a"]) {
-        delRight = -deltaLonLat;
+        GLOBAL.TRACE_TARGET.moveTarget({ left: 1.5 });
     }
 
     if (GLOBAL.keys["c"]) {
-        delUp = deltaAlt;
+        GLOBAL.TRACE_TARGET.moveTarget({ up: 1.5 });
     }
     if (GLOBAL.keys["z"]) {
-        delUp = -deltaAlt;
+        GLOBAL.TRACE_TARGET.moveTarget({ down: 1.5 });
     }
 
-    // if (GLOBAL.keys["q"]) {
-    //     GLOBAL.droneDirection -= deltaAlt;
-    //     direction -= deltaAlt;
-    // } else if (GLOBAL.keys["e"]) {
-    //     GLOBAL.droneDirection += deltaAlt;
-    //     direction += deltaAlt;
-    // }
+    console.log(
+        GLOBAL.camera.getLocation().Longitude,
+        GLOBAL.camera.getLocation().Latitude,
+        GLOBAL.camera.getLocation().Altitude
+    );
+
+    GLOBAL.camera.setLocation(GLOBAL.camera.getLocation());
 
     // if (GLOBAL.keys["s"]) {
-    //     direction = GLOBAL.droneDirection;
-    //     camera.setTilt(10);
+    //     GLOBAL.isTraceActive = !GLOBAL.isTraceActive;
+    //     camera.setTraceActive(GLOBAL.isTraceActive);
     // }
-
-    GLOBAL.TRACE_TARGET.moveTarget({
-        left: delRight,
-        front: delFront,
-        up: delUp,
-    });
 
     Module.XDRenderData();
     // printDroneStatus();
@@ -109,8 +95,21 @@ function mouseWheelCallback(event) {
     printDroneCamera();
 }
 
-function mouseMoveCallback() {
+function mouseMoveCallback(event) {
+    if (GLOBAL.MOUSE_BUTTON_PRESS && event.buttons == 1) {
+        GLOBAL.TRACE_TARGET.direction += event.movementX * 0.5;
+        GLOBAL.TRACE_TARGET.tilt += event.movementY * 0.5;
+    }
+
     printDroneCamera();
+}
+
+function mouseUpCallback() {
+    GLOBAL.MOUSE_BUTTON_PRESS = false;
+}
+
+function mouseDownCallback() {
+    GLOBAL.MOUSE_BUTTON_PRESS = true;
 }
 
 /* 마우스 & 키보드 이벤트 설정 */
@@ -119,23 +118,21 @@ function addSelectModeEvent() {
 }
 
 function removeSelectModeEvent() {
-    Module.canvas.removeEventListener("click", mouseClickCallback);
+    //Module.canvas.removeEventListener("click", mouseClickCallback);
 }
 
 function addDrivingModeEvent() {
     window.addEventListener("keypress", keyPressCallback);
     window.addEventListener("keyup", keyReleaseCallback);
-
     Module.canvas.addEventListener("mousemove", mouseMoveCallback);
-
     Module.canvas.addEventListener("mousewheel", mouseWheelCallback);
+    Module.canvas.addEventListener("mouseup", mouseUpCallback);
+    Module.canvas.addEventListener("mousedown", mouseDownCallback);
 }
 
 function removeDrivingModeEvent() {
     window.removeEventListener("keypress", keyPressCallback);
-
     Module.canvas.removeEventListener("mousemove", mouseMoveCallback);
-
     Module.canvas.removeEventListener("mousewheel", mouseWheelCallback);
 }
 

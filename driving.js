@@ -2,24 +2,24 @@ function setDrivingMode() {
     let control = Module.getControl();
     let startPos = GLOBAL.POIPosition[0];
     let endPos = GLOBAL.POIPosition[1];
-    startPos.Altitude += 10;
+    //startPos.Altitude += 10;
 
     GLOBAL.camera.setMoveMode(true);
-    // GLOBAL.camera.moveLonLatAlt(
-    //     startPos.Longitude,
-    //     startPos.Latitude,
-    //     startPos.Altitude,
-    //     true
-    // );
-    // GLOBAL.camera.look(startPos, endPos);
+    GLOBAL.camera.moveLonLatAlt(
+        startPos.Longitude,
+        startPos.Latitude,
+        startPos.Altitude,
+        true
+    );
+    GLOBAL.camera.look(startPos, endPos);
     // set drone direction code is in common.js
 
     loadModel(startPos);
 
     drawArrow(endPos);
 
-    // control.setKeyControlEnable(false);
-    // control.setMouseZoomMode(false);
+    control.setKeyControlEnable(false);
+    control.setMouseZoomMode(false);
     removeSelectModeEvent();
     addDrivingModeEvent();
 
@@ -36,16 +36,16 @@ function loadModel(startPos) {
         var traceTarget = Module.createTraceTarget(model.getId());
         traceTarget.set({
             object: model,
-            tilt: 45.0,
+            tilt: 10.0,
             direction: 0.0,
-            distance: 10.0,
+            distance: 200.0,
         });
 
         GLOBAL.TRACE_TARGET = traceTarget;
 
         var camera = Module.getViewCamera();
         camera.setTraceTarget(GLOBAL.TRACE_TARGET);
-        camera.setTraceActive(true);
+        camera.setTraceActive(GLOBAL.isTraceActive);
     }, startPos);
 }
 
@@ -58,8 +58,8 @@ function loadTargetModel(_callback, startPos) {
             var model = Module.createGhostSymbol("drone");
 
             // base point 설정
-            model.setBasePoint(0.0, -0.2, 0.0);
-            model.setScale(new Module.JSSize3D(1.0, 1.0, 1.0));
+            model.setBasePoint(0.0, 0.0, 0.0);
+            model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
             model.setGhostSymbol("drone");
             model.setPosition(startPos);
 
