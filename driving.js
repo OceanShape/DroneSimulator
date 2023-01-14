@@ -2,7 +2,7 @@ function setDrivingMode() {
     let control = Module.getControl();
     let startPos = GLOBAL.POIPosition[0];
     let endPos = GLOBAL.POIPosition[1];
-    //startPos.Altitude += 10;
+    startPos.Altitude += 10;
 
     GLOBAL.camera.setMoveMode(true);
     GLOBAL.camera.moveLonLatAlt(
@@ -23,8 +23,6 @@ function setDrivingMode() {
     removeSelectModeEvent();
     addDrivingModeEvent();
 
-    setDroneDirection(true);
-
     GLOBAL.currentMode = Mode.DRIVING;
 
     document.getElementById("model-loader").style.visibility = "visible";
@@ -43,9 +41,9 @@ function loadModel(startPos) {
 
         GLOBAL.TRACE_TARGET = traceTarget;
 
-        var camera = Module.getViewCamera();
+        let camera = Module.getViewCamera();
         camera.setTraceTarget(GLOBAL.TRACE_TARGET);
-        camera.setTraceActive(GLOBAL.isTraceActive);
+        camera.setTraceActive(true);
     }, startPos);
 }
 

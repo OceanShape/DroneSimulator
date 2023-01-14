@@ -16,19 +16,9 @@ function changeMode() {
     }
 }
 
-function setDroneDirection(activate) {
-    if (activate == false) {
-        clearInterval(GLOBAL.droneDirectionIntervalID);
-    } else {
-        GLOBAL.droneDirectionIntervalID = setInterval(function () {
-            let direction = GLOBAL.camera.getDirect();
-            if (Math.abs(direction - GLOBAL.preCameraDirection) < 0.000001) {
-                clearInterval(GLOBAL.droneDirectionIntervalID);
-                GLOBAL.droneDirection = direction;
-            }
-            GLOBAL.preCameraDirection = direction;
-        }, 300);
-    }
+function updateTargetDirection() {
+    let dronePos = GLOBAL.TRACE_TARGET.getObject().position;
+    let targetPos = GLOBAL.POIPosition[1];
 }
 
 function keyReleaseCallback(event) {
@@ -42,7 +32,6 @@ function keyPressCallback(event) {
     GLOBAL.keys[event.key] = true;
 
     let camera = GLOBAL.camera;
-    let direction = camera.getDirect();
 
     if (GLOBAL.keys["w"]) {
         GLOBAL.TRACE_TARGET.moveTarget({ front: 1.5 });
@@ -65,18 +54,14 @@ function keyPressCallback(event) {
         GLOBAL.TRACE_TARGET.moveTarget({ down: 1.5 });
     }
 
-    console.log(
-        GLOBAL.camera.getLocation().Longitude,
-        GLOBAL.camera.getLocation().Latitude,
-        GLOBAL.camera.getLocation().Altitude
-    );
+    // console.log(
+    //     camera.getLocation().Longitude,
+    //     camera.getLocation().Latitude,
+    //     camera.getLocation().Altitude
+    // );
+    updateTargetDirection();
 
-    GLOBAL.camera.setLocation(GLOBAL.camera.getLocation());
-
-    // if (GLOBAL.keys["s"]) {
-    //     GLOBAL.isTraceActive = !GLOBAL.isTraceActive;
-    //     camera.setTraceActive(GLOBAL.isTraceActive);
-    // }
+    camera.setLocation(camera.getLocation());
 
     Module.XDRenderData();
     // printDroneStatus();
