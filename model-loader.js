@@ -28,6 +28,8 @@ function updateCamera(camera) {
     const renderer = new THREE.WebGLRenderer({
         canvas: (function () {
             let canvas = document.getElementById("model-loader");
+            canvas.width = 800;
+            canvas.height = 800;
             return canvas;
         })(),
         antialias: true,
