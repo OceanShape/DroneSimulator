@@ -51,7 +51,11 @@ function loadModel(startPos) {
 
 function setTraceTarget(startPos) {
     let model = Module.createGhostSymbol("DRONE_DRIVING");
-    console.log(model);
+    let endPos = GLOBAL.POIPosition[1];
+    let delX = endPos.Longitude - startPos.Longitude;
+    let delY = endPos.Latitude - startPos.Latitude;
+    let direction = (Math.atan2(delY, delX) * 180) / Math.PI;
+    console.log("direct", direction);
 
     model.setBasePoint(0.0, 0.0, 0.0);
     model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
@@ -62,7 +66,7 @@ function setTraceTarget(startPos) {
     traceTarget.set({
         object: model,
         tilt: 10.0,
-        direction: 0.0,
+        direction: Math.atan2(delY, delX),
         distance: 200.0,
     });
 

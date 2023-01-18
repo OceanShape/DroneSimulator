@@ -43,6 +43,17 @@
 		};
 		Object.freeze(Mode);
 
+		function getDirection() {
+			let startPos = GLOBAL.POIPosition[0];
+			let endPos = GLOBAL.POIPosition[1];
+			startPos.Altitude += 10;
+			let delX = endPos.Longitude - startPos.Longitude;
+			let delY = endPos.Latitude - startPos.Latitude;
+			console.log(startPos.Longitude, endPos.Longitude)
+			console.log(startPos.Latitude, endPos.Latitude)
+			return (Math.atan2(delX, delY) * 180) / Math.PI;
+		}
+
 		function getRadians(degrees) {
  		   return (degrees * Math.PI) / 180;
 		}

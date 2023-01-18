@@ -57,6 +57,7 @@ function keyPressCallback(event) {
 
     if (GLOBAL.keys["s"]) {
         GLOBAL.droneDelta = 10 / del;
+        console.log("camera", Module.getViewCamera().getDirect());
     }
 
     // console.log(
