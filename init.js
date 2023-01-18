@@ -18,10 +18,11 @@ function init() {
         15
     );
 
-    var layerList = new Module.JSLayerList(true);
-    GLOBAL.layer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
-    GLOBAL.layer.setMinDistance(0.0);
-    GLOBAL.layer.setMaxDistance(100000000);
+    GLOBAL.layerList = new Module.JSLayerList(true);
+    let layerList = GLOBAL.layerList;
+    let POILayer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
+    POILayer.setMinDistance(0.0);
+    POILayer.setMaxDistance(100000000);
     GLOBAL.images = [];
     GLOBAL.POIPosition = [];
 

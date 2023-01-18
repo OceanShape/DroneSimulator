@@ -103,7 +103,7 @@ function addSelectModeEvent() {
 }
 
 function removeSelectModeEvent() {
-    //Module.canvas.removeEventListener("click", mouseClickCallback);
+    Module.canvas.removeEventListener("click", mouseClickCallback);
 }
 
 function addDrivingModeEvent() {

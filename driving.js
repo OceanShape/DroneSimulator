@@ -81,7 +81,7 @@ function drawArrow(target) {
         new Module.JSColor(255, 255, 0, 0)
     );
 
-    GLOBAL.layer.addObject(arrow, 0);
+    GLOBAL.layerList.nameAtLayer("POI_LAYER").addObject(arrow, 0);
 }
 
 function printDroneStatus() {

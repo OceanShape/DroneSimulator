@@ -81,7 +81,7 @@ function createPOI(pos) {
         );
         poi.setText(imageText[idx]);
 
-        GLOBAL.layer.addObject(poi, 0);
+        GLOBAL.layerList.nameAtLayer("POI_LAYER").addObject(poi, 0);
     };
 
     img[idx].src = imagePath[idx];
@@ -110,7 +110,7 @@ function clearIndicator() {
     GLOBAL.POICount = 0;
     GLOBAL.POIPosition = [];
     GLOBAL.images = [];
-    var layer = GLOBAL.layer;
+    let layer = GLOBAL.layerList.nameAtLayer("POI_LAYER");
     for (let i = 0; i < 2; i++) {
         layer.removeAtKey("POI" + i);
     }
