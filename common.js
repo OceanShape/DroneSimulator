@@ -32,26 +32,31 @@ function keyPressCallback(event) {
     GLOBAL.keys[event.key] = true;
 
     let camera = GLOBAL.camera;
+    let del = GLOBAL.droneDelta;
 
     if (GLOBAL.keys["w"]) {
-        GLOBAL.TRACE_TARGET.moveTarget({ front: 1.5 });
+        GLOBAL.TRACE_TARGET.moveTarget({ front: del });
     }
     if (GLOBAL.keys["x"]) {
-        GLOBAL.TRACE_TARGET.moveTarget({ back: 1.5 });
+        GLOBAL.TRACE_TARGET.moveTarget({ back: del });
     }
 
     if (GLOBAL.keys["d"]) {
-        GLOBAL.TRACE_TARGET.moveTarget({ right: 1.5 });
+        GLOBAL.TRACE_TARGET.moveTarget({ right: del });
     }
     if (GLOBAL.keys["a"]) {
-        GLOBAL.TRACE_TARGET.moveTarget({ left: 1.5 });
+        GLOBAL.TRACE_TARGET.moveTarget({ left: del });
     }
 
     if (GLOBAL.keys["c"]) {
-        GLOBAL.TRACE_TARGET.moveTarget({ up: 1.5 });
+        GLOBAL.TRACE_TARGET.moveTarget({ up: del });
     }
     if (GLOBAL.keys["z"]) {
-        GLOBAL.TRACE_TARGET.moveTarget({ down: 1.5 });
+        GLOBAL.TRACE_TARGET.moveTarget({ down: del });
+    }
+
+    if (GLOBAL.keys["s"]) {
+        GLOBAL.droneDelta = 10 / del;
     }
 
     // console.log(
