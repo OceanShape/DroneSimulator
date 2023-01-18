@@ -23,6 +23,7 @@ function init() {
     let POILayer = layerList.createLayer("POI_LAYER", Module.ELT_3DPOINT);
     POILayer.setMinDistance(0.0);
     POILayer.setMaxDistance(100000000);
+    layerList.createLayer("GHOST_SYMBOL_LAYER", Module.ELT_GHOST_3DSYMBOL);
     GLOBAL.images = [];
     GLOBAL.POIPosition = [];
 

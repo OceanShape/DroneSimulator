@@ -14,7 +14,12 @@ function setDrivingMode() {
     GLOBAL.camera.look(startPos, endPos);
     // set drone direction code is in common.js
 
-    loadModel(startPos);
+    if (GLOBAL.isGhostSymbolLoaded == false) {
+        loadModel(startPos);
+        GLOBAL.isGhostSymbolLoaded = true;
+    } else {
+        setTraceTarget(startPos);
+    }
 
     drawArrow(endPos);
 
@@ -28,42 +33,46 @@ function setDrivingMode() {
     document.getElementById("model-loader").style.visibility = "visible";
 }
 
-// 위치 추적 모델 생성
-function loadModel(startPos) {
-    loadTargetModel(function (model) {
-        var traceTarget = Module.createTraceTarget(model.getId());
-        traceTarget.set({
-            object: model,
-            tilt: 10.0,
-            direction: 0.0,
-            distance: 200.0,
-        });
-
-        GLOBAL.TRACE_TARGET = traceTarget;
-
-        let camera = Module.getViewCamera();
-        camera.setTraceTarget(GLOBAL.TRACE_TARGET);
-        camera.setTraceActive(true);
-    }, startPos);
+function clearGhostSymbol() {
+    GLOBAL.layerList
+        .nameAtLayer("GHOST_SYMBOL_LAYER")
+        .removeAtKey("DRONE_DRIVING");
 }
 
-/* 모델 객체 생성 */
-function loadTargetModel(_callback, startPos) {
+function loadModel(startPos) {
     Module.getGhostSymbolMap().insert({
-        id: "drone",
+        id: "DRONE",
         url: "./data/drone/drone_simulator.3ds",
         callback: function (e) {
-            var model = Module.createGhostSymbol("drone");
-
-            // base point 설정
-            model.setBasePoint(0.0, 0.0, 0.0);
-            model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
-            model.setGhostSymbol("drone");
-            model.setPosition(startPos);
-
-            _callback(model);
+            setTraceTarget(startPos);
         },
     });
+}
+
+function setTraceTarget(startPos) {
+    let model = Module.createGhostSymbol("DRONE_DRIVING");
+    console.log(model);
+
+    model.setBasePoint(0.0, 0.0, 0.0);
+    model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
+    model.setGhostSymbol("DRONE");
+    model.setPosition(startPos);
+
+    let traceTarget = Module.createTraceTarget(model.getId());
+    traceTarget.set({
+        object: model,
+        tilt: 10.0,
+        direction: 0.0,
+        distance: 200.0,
+    });
+
+    GLOBAL.TRACE_TARGET = traceTarget;
+
+    let camera = Module.getViewCamera();
+    camera.setTraceTarget(GLOBAL.TRACE_TARGET);
+    camera.setTraceActive(true);
+
+    GLOBAL.layerList.nameAtLayer("GHOST_SYMBOL_LAYER").addObject(model, 0);
 }
 
 function drawArrow(target) {

@@ -10,11 +10,14 @@ function setSelectMode() {
     camera.moveLonLatAlt(lon, lat, alt, true);
     camera.setTilt(90.0);
     camera.setFov(30);
+    camera.setTraceActive(false);
 
     control.setKeyControlEnable(true);
     control.setMouseZoomMode(true);
     removeDrivingModeEvent();
     setMapMoveState();
+
+    clearGhostSymbol();
 
     GLOBAL.currentMode = Mode.SELECT;
 
