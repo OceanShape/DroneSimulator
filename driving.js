@@ -58,11 +58,13 @@ function setTraceTarget(startPos) {
     model.setPosition(startPos);
     GLOBAL.layerList.nameAtLayer("GHOST_SYMBOL_LAYER").addObject(model, 0);
 
+    GLOBAL.droneToTargetDirection = getDirection();
+
     let traceTarget = Module.createTraceTarget(model.getId());
     traceTarget.set({
         object: model,
         tilt: 10.0,
-        direction: getDirection(),
+        direction: GLOBAL.droneToTargetDirection,
         distance: 200.0,
     });
 

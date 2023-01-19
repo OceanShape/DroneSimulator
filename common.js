@@ -16,11 +16,6 @@ function changeMode() {
     }
 }
 
-function updateTargetDirection() {
-    let dronePos = GLOBAL.TRACE_TARGET.getObject().position;
-    let targetPos = GLOBAL.POIPosition[1];
-}
-
 function keyReleaseCallback(event) {
     GLOBAL.keys[event.key] = false;
     for (key in GLOBAL.keys) {
@@ -57,6 +52,7 @@ function keyPressCallback(event) {
 
     if (GLOBAL.keys["s"]) {
         GLOBAL.droneDelta = 10 / del;
+        console.log(GLOBAL.droneToTargetDirection);
     }
 
     // console.log(
@@ -64,7 +60,7 @@ function keyPressCallback(event) {
     //     camera.getLocation().Latitude,
     //     camera.getLocation().Altitude
     // );
-    updateTargetDirection();
+    GLOBAL.droneToTargetDirection = getDirection();
 
     camera.setLocation(camera.getLocation());
 

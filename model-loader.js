@@ -10,8 +10,20 @@ function reset(camera) {
 function updateCamera(camera) {
     if (GLOBAL.currentMode == Mode.DRIVING) {
         let droneCamera = GLOBAL.camera;
-        let droneDirection = GLOBAL.droneDirection;
-        let direct = getRadians(droneCamera.getDirect() - droneDirection);
+
+        let turn = 0.0;
+        //console.log(GLOBAL.droneToTargetDirection, turn);
+        if (
+            160 < GLOBAL.droneToTargetDirection &&
+            GLOBAL.droneToTargetDirection < 260
+        ) {
+            console.log("CASE");
+            turn = GLOBAL.camera.getDirect() + GLOBAL.droneToTargetDirection;
+            turn -= 90;
+        } else {
+            turn = -GLOBAL.droneToTargetDirection + GLOBAL.camera.getDirect();
+        }
+        let direct = getRadians(turn);
         let tilt = getRadians(droneCamera.getTilt());
         let tiltAbs = getRadians(Math.abs(droneCamera.getTilt()));
         camera.position.x =
