@@ -56,6 +56,7 @@ function setTraceTarget(startPos) {
     model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
     model.setGhostSymbol("DRONE");
     model.setPosition(startPos);
+    GLOBAL.layerList.nameAtLayer("GHOST_SYMBOL_LAYER").addObject(model, 0);
 
     let traceTarget = Module.createTraceTarget(model.getId());
     traceTarget.set({
@@ -71,7 +72,6 @@ function setTraceTarget(startPos) {
     camera.setTraceTarget(GLOBAL.TRACE_TARGET);
     camera.setTraceActive(true);
 
-    GLOBAL.layerList.nameAtLayer("GHOST_SYMBOL_LAYER").addObject(model, 0);
     // let obj = GLOBAL.layerList
     //     .nameAtLayer("GHOST_SYMBOL_LAYER")
     //     .getObjects()[0].object;

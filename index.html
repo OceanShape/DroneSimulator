@@ -43,8 +43,15 @@
 		};
 		Object.freeze(Mode);
 
+		function getDronePosition() {
+			let drone = GLOBAL.layerList
+				.nameAtLayer("GHOST_SYMBOL_LAYER")
+				.getObjects()[0].object;
+			return drone.getPosition();
+		}
+
 		function getDirection() {
-			let st = GLOBAL.POIPosition[0];
+			let st = getDronePosition();
 			let ed = GLOBAL.POIPosition[1];
 			let direction = getDegree(Math.atan2(ed.Latitude - st.Latitude, ed.Longitude - st.Longitude));
 
