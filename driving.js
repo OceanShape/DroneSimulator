@@ -4,14 +4,15 @@ function setDrivingMode() {
     let endPos = GLOBAL.POIPosition[1];
     startPos.Altitude += 10;
 
-    GLOBAL.camera.setMoveMode(true);
-    GLOBAL.camera.moveLonLatAlt(
+    let camera = GLOBAL.camera;
+    camera.setMoveMode(true);
+    camera.moveLonLatAlt(
         startPos.Longitude,
         startPos.Latitude,
         startPos.Altitude,
         true
     );
-    GLOBAL.camera.look(startPos, endPos);
+    camera.look(startPos, endPos);
     // set drone direction code is in common.js
 
     if (GLOBAL.isGhostSymbolLoaded == false) {
@@ -51,24 +52,30 @@ function loadModel(startPos) {
 
 function setTraceTarget(startPos) {
     let model = Module.createGhostSymbol("DRONE_DRIVING");
-    let endPos = GLOBAL.POIPosition[1];
-    let delX = endPos.Longitude - startPos.Longitude;
-    let delY = endPos.Latitude - startPos.Latitude;
-    let direction = (Math.atan2(delY, delX) * 180) / Math.PI;
-    console.log("direct", direction);
+    let direction = getDirection(GLOBAL.POIPosition[0], GLOBAL.POIPosition[1]);
 
     model.setBasePoint(0.0, 0.0, 0.0);
     model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
     model.setGhostSymbol("DRONE");
     model.setPosition(startPos);
 
+    let d = 84.5 - direction; // 0 < direction && direction < 90
+    if (90 < direction && direction < 180) {
+        d = 454 - direction;
+    } else if (-180 < direction && direction < -90) {
+        d = 346 + direction;
+    } else if (-90 < direction && direction < 0) {
+        d = 454 - direction;
+    }
+
     let traceTarget = Module.createTraceTarget(model.getId());
     traceTarget.set({
         object: model,
         tilt: 10.0,
-        direction: Math.atan2(delY, delX),
+        direction: d,
         distance: 200.0,
     });
+    // - 5.5
 
     GLOBAL.TRACE_TARGET = traceTarget;
 
@@ -77,6 +84,10 @@ function setTraceTarget(startPos) {
     camera.setTraceActive(true);
 
     GLOBAL.layerList.nameAtLayer("GHOST_SYMBOL_LAYER").addObject(model, 0);
+    // let obj = GLOBAL.layerList
+    //     .nameAtLayer("GHOST_SYMBOL_LAYER")
+    //     .getObjects()[0].object;
+    //console.log("model rotation", model.getRotationY());
 }
 
 function drawArrow(target) {

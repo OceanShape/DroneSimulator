@@ -57,7 +57,15 @@ function keyPressCallback(event) {
 
     if (GLOBAL.keys["s"]) {
         GLOBAL.droneDelta = 10 / del;
-        console.log("camera", Module.getViewCamera().getDirect());
+        // let model = GLOBAL.layerList
+        //     .nameAtLayer("GHOST_SYMBOL_LAYER")
+        //     .getObjects()[0].object;
+        // console.log(
+        //     "two point direct",
+        //     getDirection(model.getPosition(), GLOBAL.POIPosition[1])
+        // );
+        // console.log("model rotation", model.getRotationY());
+        // console.log("camera", Module.getViewCamera().getDirect());
     }
 
     // console.log(
