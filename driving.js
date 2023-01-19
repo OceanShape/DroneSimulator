@@ -52,30 +52,18 @@ function loadModel(startPos) {
 
 function setTraceTarget(startPos) {
     let model = Module.createGhostSymbol("DRONE_DRIVING");
-    let direction = getDirection(GLOBAL.POIPosition[0], GLOBAL.POIPosition[1]);
-
     model.setBasePoint(0.0, 0.0, 0.0);
     model.setScale(new Module.JSSize3D(0.2, 0.2, 0.2));
     model.setGhostSymbol("DRONE");
     model.setPosition(startPos);
 
-    let d = 84.5 - direction; // 0 < direction && direction < 90
-    if (90 < direction && direction < 180) {
-        d = 454 - direction;
-    } else if (-180 < direction && direction < -90) {
-        d = 346 + direction;
-    } else if (-90 < direction && direction < 0) {
-        d = 454 - direction;
-    }
-
     let traceTarget = Module.createTraceTarget(model.getId());
     traceTarget.set({
         object: model,
         tilt: 10.0,
-        direction: d,
+        direction: getDirection(),
         distance: 200.0,
     });
-    // - 5.5
 
     GLOBAL.TRACE_TARGET = traceTarget;
 

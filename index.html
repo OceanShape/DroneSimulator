@@ -43,10 +43,22 @@
 		};
 		Object.freeze(Mode);
 
-		function getDirection(st, ed) {
-			console.log(st)
-			console.log(ed)
-			return getDegree(Math.atan2(ed.Latitude - st.Latitude, ed.Longitude - st.Longitude));
+		function getDirection() {
+			let st = GLOBAL.POIPosition[0];
+			let ed = GLOBAL.POIPosition[1];
+			let direction = getDegree(Math.atan2(ed.Latitude - st.Latitude, ed.Longitude - st.Longitude));
+
+			let d = 90 - direction;
+			if (0 < direction && direction < 90) {
+				d = 84.5 - direction;
+			} else if (90 < direction && direction < 180) {
+				d = 454 - direction;
+			} else if (-180 < direction && direction < -90) {
+				d = 346 + direction;
+			} else if (-90 < direction && direction < 0) {
+				d = 454 - direction;
+			}
+			return d;
 		}
 
 		function getDegree(radian) {
