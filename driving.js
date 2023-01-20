@@ -29,6 +29,18 @@ function setDrivingMode() {
     removeSelectModeEvent();
     addDrivingModeEvent();
 
+    let layer = Module.getTileLayerList().nameAtLayer("facility_build");
+    let pick = layer.getPickInfoAtView(
+        new Module.JSVector3D(126.916589, 37.531051, 20.0),
+        new Module.JSVector3D(126.917843, 37.531267, 20.0)
+    );
+    layer.SetDefineMeshColorByObjectKey(
+        pick.objectKey,
+        2,
+        new Module.JSColor(0, 255, 0),
+        false
+    );
+
     GLOBAL.currentMode = Mode.DRIVING;
 
     document.getElementById("model-loader").style.visibility = "visible";
@@ -98,13 +110,11 @@ function drawArrow(target) {
 function drawVerticalLine() {
     let layer = GLOBAL.layerList.nameAtLayer("VERTICAL_LINE_LAYER");
     if (layer == null) {
-        // 라인 레이어 생성
         layer = GLOBAL.layerList.createLayer(
             "VERTICAL_LINE_LAYER",
             Module.ELT_3DLINE
         );
     } else {
-        // 기존 라인 지우기
         layer.removeAtKey("VERTICAL_LINE");
     }
 
@@ -124,7 +134,7 @@ function drawVerticalLine() {
 
     // 폴리곤 색상 설정
     let lineStyle = new Module.JSPolyLineStyle();
-    lineStyle.setColor(new Module.JSColor(100, 255, 0, 0));
+    lineStyle.setColor(new Module.JSColor(100, 0, 0, 255));
     lineStyle.setWidth(2.0);
     line.setStyle(lineStyle);
 

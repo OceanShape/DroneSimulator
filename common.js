@@ -60,6 +60,9 @@ function keyPressCallback(event) {
 
     drawVerticalLine();
 
+    let pos = getDronePosition();
+    console.log(Module.getMap().getTerrHeightFast(pos.Longitude, pos.Latitude));
+
     Module.XDRenderData();
     // printDroneStatus();
     // printDroneCamera();
