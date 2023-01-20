@@ -74,10 +74,7 @@ function setTraceTarget(startPos) {
     camera.setTraceTarget(GLOBAL.TRACE_TARGET);
     camera.setTraceActive(true);
 
-    // let obj = GLOBAL.layerList
-    //     .nameAtLayer("GHOST_SYMBOL_LAYER")
-    //     .getObjects()[0].object;
-    //console.log("model rotation", model.getRotationY());
+    drawVerticalLine();
 }
 
 function drawArrow(target) {
@@ -96,6 +93,42 @@ function drawArrow(target) {
     );
 
     GLOBAL.layerList.nameAtLayer("POI_LAYER").addObject(arrow, 0);
+}
+
+function drawVerticalLine() {
+    let layer = GLOBAL.layerList.nameAtLayer("VERTICAL_LINE_LAYER");
+    if (layer == null) {
+        // 라인 레이어 생성
+        layer = GLOBAL.layerList.createLayer(
+            "VERTICAL_LINE_LAYER",
+            Module.ELT_3DLINE
+        );
+    } else {
+        // 기존 라인 지우기
+        layer.removeAtKey("VERTICAL_LINE");
+    }
+
+    st = getDronePosition();
+    let line = Module.createLineString("VERTICAL_LINE");
+
+    let vertices = new Module.JSVec3Array();
+    vertices.push(st);
+    st.Altitude = 0.0;
+    vertices.push(st);
+
+    let part = new Module.Collection();
+    part.add(2);
+
+    line.setPartCoordinates(vertices, part);
+    line.setUnionMode(false);
+
+    // 폴리곤 색상 설정
+    let lineStyle = new Module.JSPolyLineStyle();
+    lineStyle.setColor(new Module.JSColor(100, 255, 0, 0));
+    lineStyle.setWidth(2.0);
+    line.setStyle(lineStyle);
+
+    layer.addObject(line, 0);
 }
 
 function printDroneStatus() {

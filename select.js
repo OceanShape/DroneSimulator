@@ -18,6 +18,10 @@ function setSelectMode() {
     setMapMoveState();
 
     clearGhostSymbol();
+    let layer = GLOBAL.layerList.nameAtLayer("VERTICAL_LINE_LAYER");
+    if (layer != null) {
+        layer.removeAtKey("VERTICAL_LINE");
+    }
 
     GLOBAL.currentMode = Mode.SELECT;
 

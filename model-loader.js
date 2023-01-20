@@ -12,12 +12,10 @@ function updateCamera(camera) {
         let droneCamera = GLOBAL.camera;
 
         let turn = 0.0;
-        //console.log(GLOBAL.droneToTargetDirection, turn);
         if (
             160 < GLOBAL.droneToTargetDirection &&
             GLOBAL.droneToTargetDirection < 260
         ) {
-            console.log("CASE");
             turn = GLOBAL.camera.getDirect() + GLOBAL.droneToTargetDirection;
             turn -= 90;
         } else {

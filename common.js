@@ -52,17 +52,13 @@ function keyPressCallback(event) {
 
     if (GLOBAL.keys["s"]) {
         GLOBAL.droneDelta = 10 / del;
-        console.log(GLOBAL.droneToTargetDirection);
     }
 
-    // console.log(
-    //     camera.getLocation().Longitude,
-    //     camera.getLocation().Latitude,
-    //     camera.getLocation().Altitude
-    // );
     GLOBAL.droneToTargetDirection = getDirection();
 
     camera.setLocation(camera.getLocation());
+
+    drawVerticalLine();
 
     Module.XDRenderData();
     // printDroneStatus();
