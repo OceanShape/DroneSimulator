@@ -11,15 +11,14 @@ function updateCamera(camera) {
     if (GLOBAL.currentMode == Mode.DRIVING) {
         let droneCamera = GLOBAL.camera;
 
-        let turn = 0.0;
+        let turn = GLOBAL.camera.getDirect();
         if (
             160 < GLOBAL.droneToTargetDirection &&
             GLOBAL.droneToTargetDirection < 260
         ) {
-            turn = GLOBAL.camera.getDirect() + GLOBAL.droneToTargetDirection;
-            turn -= 90;
+            turn += GLOBAL.droneToTargetDirection - 90;
         } else {
-            turn = -GLOBAL.droneToTargetDirection + GLOBAL.camera.getDirect();
+            turn -= GLOBAL.droneToTargetDirection;
         }
         let direct = getRadians(turn);
         let tilt = getRadians(droneCamera.getTilt());

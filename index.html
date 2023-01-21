@@ -50,7 +50,7 @@
 			return drone.getPosition();
 		}
 
-		function getDirection() {
+		function getTargetDirection() {
 			let st = getDronePosition();
 			let ed = GLOBAL.POIPosition[1];
 			let direction = getDegree(Math.atan2(ed.Latitude - st.Latitude, ed.Longitude - st.Longitude));

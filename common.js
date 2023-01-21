@@ -54,14 +54,12 @@ function keyPressCallback(event) {
         GLOBAL.droneDelta = 10 / del;
     }
 
-    GLOBAL.droneToTargetDirection = getDirection();
+    GLOBAL.droneToTargetDirection = getTargetDirection();
 
     camera.setLocation(camera.getLocation());
 
-    drawVerticalLine();
-
-    let pos = getDronePosition();
-    console.log(Module.getMap().getTerrHeightFast(pos.Longitude, pos.Latitude));
+    drawVerticalLine(getDronePosition(), "VERTICAL_LINE");
+    drawVerticalLine(getCheckPosition(0), "CHECK_0");
 
     Module.XDRenderData();
     // printDroneStatus();
@@ -80,10 +78,58 @@ function mouseWheelCallback(event) {
     printDroneCamera();
 }
 
+function getCheckPosition(degree) {
+    let dronePos = getDronePosition();
+    let rotatedPos = new Module.JSVector3D(
+        dronePos.Longitude,
+        dronePos.Latitude,
+        dronePos.Altitude
+    );
+    let direct = getRadians(GLOBAL.camera.getDirect() + degree);
+    rotatedPos.Longitude += 0.0005 * Math.sin(direct);
+    rotatedPos.Latitude += 0.0005 * Math.cos(direct);
+
+    return rotatedPos;
+}
+
+function drawVerticalLine(startPos, id) {
+    let layer = GLOBAL.layerList.nameAtLayer("VERTICAL_LINE_LAYER");
+    if (layer == null) {
+        layer = GLOBAL.layerList.createLayer(
+            "VERTICAL_LINE_LAYER",
+            Module.ELT_3DLINE
+        );
+    } else {
+        layer.removeAtKey(id);
+    }
+
+    let line = Module.createLineString(id);
+
+    let vertices = new Module.JSVec3Array();
+    vertices.push(startPos);
+    startPos.Altitude = 0.0;
+    vertices.push(startPos);
+
+    let part = new Module.Collection();
+    part.add(2);
+
+    line.setPartCoordinates(vertices, part);
+    line.setUnionMode(false);
+
+    let lineStyle = new Module.JSPolyLineStyle();
+    lineStyle.setColor(new Module.JSColor(100, 0, 0, 255));
+    lineStyle.setWidth(2.0);
+    line.setStyle(lineStyle);
+
+    layer.addObject(line, 0);
+}
+
 function mouseMoveCallback(event) {
     if (GLOBAL.MOUSE_BUTTON_PRESS && event.buttons == 1) {
         GLOBAL.TRACE_TARGET.direction += event.movementX * 0.5;
         GLOBAL.TRACE_TARGET.tilt += event.movementY * 0.5;
+
+        drawVerticalLine(getCheckPosition(0), "CHECK_0");
     }
 
     printDroneCamera();
