@@ -29,18 +29,6 @@ function setDrivingMode() {
     removeSelectModeEvent();
     addDrivingModeEvent();
 
-    let layer = Module.getTileLayerList().nameAtLayer("facility_build");
-    let pick = layer.getPickInfoAtView(
-        new Module.JSVector3D(126.916589, 37.531051, 20.0),
-        new Module.JSVector3D(126.917843, 37.531267, 20.0)
-    );
-    layer.SetDefineMeshColorByObjectKey(
-        pick.objectKey,
-        2,
-        new Module.JSColor(0, 255, 0),
-        false
-    );
-
     GLOBAL.currentMode = Mode.DRIVING;
 
     document.getElementById("model-loader").style.visibility = "visible";
