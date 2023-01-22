@@ -57,32 +57,69 @@ function keyPressCallback(event) {
     GLOBAL.droneToTargetDirection = getTargetDirection();
 
     drawVerticalLine(getDronePosition(), "VERTICAL_LINE");
-    drawVerticalLine(getCheckPosition(-45), "CHECK_-45");
+    //drawVerticalLine(getCheckPosition(-45), "CHECK_-45");
     drawVerticalLine(getCheckPosition(0), "CHECK_0");
-    drawVerticalLine(getCheckPosition(45), "CHECK_45");
+    //drawVerticalLine(getCheckPosition(45), "CHECK_45");
 
-    detectObject(-45);
+    //detectObject(-45);
     detectObject(0);
-    detectObject(45);
+    //detectObject(45);
 
     Module.XDRenderData();
     // printDroneStatus();
     // printDroneCamera();
 }
 
+// 1: 0~10, 2: 11~50, 3: 51~100
 function detectObject(degree) {
     let layer = Module.getTileLayerList().nameAtLayer("facility_build");
-    let pick = layer.getPickInfoAtView(
-        getDronePosition(),
-        getCheckPosition(degree)
+    let dronePos = getDronePosition();
+    let pick = layer.getPickInfoAtView(dronePos, getCheckPosition(degree, 1));
+    if (pick != null) {
+        layer.SetDefineMeshColorByObjectKey(
+            pick.objectKey,
+            2,
+            new Module.JSColor(255, 0, 0),
+            false
+        );
+    }
+    pick = layer.getPickInfoAtView(dronePos, getCheckPosition(degree, 2));
+    if (pick != null) {
+        layer.SetDefineMeshColorByObjectKey(
+            pick.objectKey,
+            2,
+            new Module.JSColor(0, 255, 255),
+            false
+        );
+    }
+    pick = layer.getPickInfoAtView(dronePos, getCheckPosition(degree, 3));
+    if (pick != null) {
+        layer.SetDefineMeshColorByObjectKey(
+            pick.objectKey,
+            2,
+            new Module.JSColor(0, 255, 0),
+            false
+        );
+    }
+}
+
+function getCheckPosition(degree, distanceNum) {
+    let dronePos = getDronePosition();
+    let rotatedPos = new Module.JSVector3D(
+        dronePos.Longitude,
+        dronePos.Latitude,
+        dronePos.Altitude
     );
-    if (pick == null) return;
-    layer.SetDefineMeshColorByObjectKey(
-        pick.objectKey,
-        2,
-        new Module.JSColor(0, 255, 0),
-        false
-    );
+    let direct = getRadians(GLOBAL.camera.getDirect() + degree);
+    let del = 0.001;
+    if (distanceNum == 1) del = 0.0001;
+    else if (distanceNum == 2) del = 0.0005;
+    else if (distanceNum == 3) del = 0.001;
+
+    rotatedPos.Longitude += del * Math.sin(direct);
+    rotatedPos.Latitude += del * Math.cos(direct);
+
+    return rotatedPos;
 }
 
 function mouseWheelCallback(event) {
@@ -95,20 +132,6 @@ function mouseWheelCallback(event) {
 
     camera.setFov(fov);
     printDroneCamera();
-}
-
-function getCheckPosition(degree) {
-    let dronePos = getDronePosition();
-    let rotatedPos = new Module.JSVector3D(
-        dronePos.Longitude,
-        dronePos.Latitude,
-        dronePos.Altitude
-    );
-    let direct = getRadians(GLOBAL.camera.getDirect() + degree);
-    rotatedPos.Longitude += 0.0005 * Math.sin(direct);
-    rotatedPos.Latitude += 0.0005 * Math.cos(direct);
-
-    return rotatedPos;
 }
 
 function drawVerticalLine(startPos, id) {
@@ -145,13 +168,13 @@ function mouseMoveCallback(event) {
         GLOBAL.TRACE_TARGET.direction += event.movementX * 0.5;
         GLOBAL.TRACE_TARGET.tilt += event.movementY * 0.5;
 
-        drawVerticalLine(getCheckPosition(-45), "CHECK_-45");
+        //drawVerticalLine(getCheckPosition(-45), "CHECK_-45");
         drawVerticalLine(getCheckPosition(0), "CHECK_0");
-        drawVerticalLine(getCheckPosition(45), "CHECK_45");
+        //drawVerticalLine(getCheckPosition(45), "CHECK_45");
 
-        detectObject(-45);
+        //detectObject(-45);
         detectObject(0);
-        detectObject(45);
+        //detectObject(45);
     }
 
     printDroneCamera();
