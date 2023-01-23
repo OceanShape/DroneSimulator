@@ -23,6 +23,11 @@ function setSelectMode() {
         layer.removeAtKey("VERTICAL_LINE");
     }
 
+    // 탐지된 오브젝트 색상 초기화
+    Module.getTileLayerList()
+        .nameAtLayer("facility_build")
+        .ClearDefineTileObjectStyle();
+
     GLOBAL.currentMode = Mode.SELECT;
 
     document.getElementById("model-loader").style.visibility = "hidden";
