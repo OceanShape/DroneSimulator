@@ -78,7 +78,6 @@ function keyPressCallback(event) {
 
 function droneCrash(msg) {
     window.alert(msg);
-    changeMode();
 }
 
 function drawLines() {
@@ -130,17 +129,13 @@ function setDetectedObjectColor() {
 // 1:0~1 2: 2~10, 3: 11~50, 4: 51~100
 function detectObject(degree) {
     let layer = Module.getTileLayerList().nameAtLayer("facility_build");
-    for (let i = 1; i < 5; ++i) {
+    for (let i = 2; i < 5; ++i) {
         let pick = layer.getPickInfoAtView(
             getDronePosition(),
             getCheckPosition(degree, i)
         );
 
         if (pick != null) {
-            if (i == 1) {
-                GLOBAL.isDroneCrash = true;
-                return;
-            }
             let detectNum = 100;
             if (GLOBAL.detectedObjectColor[pick.objectKey] != null) {
                 detectNum = Math.min(
@@ -249,10 +244,8 @@ function drawVerticalLine(startPos, id) {
 
     let lineStyle = new Module.JSPolyLineStyle();
     let color;
-    if (height < 1) {
-        droneCrash("crash: ground");
-        return;
-    } else if (height < 10) color = new Module.JSColor(255, 0, 0);
+    //if (height < 1) droneCrash("crash: ground");
+    if (height < 10) color = new Module.JSColor(255, 0, 0);
     else if (height < 20) color = new Module.JSColor(255, 255, 0);
     else color = new Module.JSColor(0, 255, 0);
     lineStyle.setColor(color);
