@@ -54,6 +54,16 @@ function keyPressCallback(event) {
         GLOBAL.droneDelta = 10 / del;
     }
 
+    if (GLOBAL.keys["q"]) {
+        if (GLOBAL.isDetectionLineVisible) {
+            let layer = GLOBAL.layerList.nameAtLayer("LINE_LAYER");
+            for (let degree = -180; degree < 180; degree += 45) {
+                layer.removeAtKey("CHECK_" + degree);
+            }
+        }
+        GLOBAL.isDetectionLineVisible = !GLOBAL.isDetectionLineVisible;
+    }
+
     GLOBAL.droneToTargetDirection = getTargetDirection();
 
     drawLines();
@@ -68,10 +78,15 @@ function keyPressCallback(event) {
 
 function drawLines() {
     drawVerticalLine(getDronePosition(), "VERTICAL_LINE");
-    // for (let degree = -180; degree < 180; degree += 45) {
-    //     let str = "CHECK_" + degree;
-    //     drawDroneLine(getDronePosition(), getCheckPosition(degree), str);
-    // }
+    if (GLOBAL.isDetectionLineVisible == true) {
+        for (let degree = -180; degree < 180; degree += 45) {
+            drawDroneLine(
+                getDronePosition(),
+                getCheckPosition(degree),
+                "CHECK_" + degree
+            );
+        }
+    }
 }
 
 function mouseMoveCallback(event) {
