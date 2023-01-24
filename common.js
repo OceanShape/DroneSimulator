@@ -204,7 +204,12 @@ function drawVerticalLine(startPos, id) {
 
     let vertices = new Module.JSVec3Array();
     vertices.push(startPos);
-    startPos.Altitude = 0.0;
+    startPos.Altitude =
+        startPos.Altitude -
+        Module.getMap().getTerrHeightFast(
+            startPos.Longitude,
+            startPos.Latitude
+        );
     vertices.push(startPos);
 
     let part = new Module.Collection();
@@ -214,7 +219,12 @@ function drawVerticalLine(startPos, id) {
     line.setUnionMode(false);
 
     let lineStyle = new Module.JSPolyLineStyle();
-    lineStyle.setColor(new Module.JSColor(100, 0, 0, 255));
+    let color;
+    let height = startPos.Altitude;
+    if (height < 5) color = new Module.JSColor(255, 0, 0);
+    else if (height < 10) color = new Module.JSColor(255, 255, 0);
+    else color = new Module.JSColor(0, 255, 0);
+    lineStyle.setColor(color);
     lineStyle.setWidth(2.0);
     line.setStyle(lineStyle);
 
