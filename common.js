@@ -76,13 +76,18 @@ function keyPressCallback(event) {
     // printDroneCamera();
 }
 
+function droneCrash(msg) {
+    window.alert(msg);
+    changeMode();
+}
+
 function drawLines() {
     drawVerticalLine(getDronePosition(), "VERTICAL_LINE");
     if (GLOBAL.isDetectionLineVisible == true) {
         for (let degree = -180; degree < 180; degree += 45) {
             drawDroneLine(
                 getDronePosition(),
-                getCheckPosition(degree),
+                getCheckPosition(degree, 4),
                 "CHECK_" + degree
             );
         }
@@ -100,20 +105,6 @@ function mouseMoveCallback(event) {
     }
 }
 
-function setDetectedObjectColor() {
-    let obj = GLOBAL.detectedObjectColor;
-    let layer = Module.getTileLayerList().nameAtLayer("facility_build");
-    layer.ClearDefineTileObjectStyle();
-    for (var key in obj) {
-        let color;
-        if (obj[key] == 1) color = new Module.JSColor(255, 0, 0);
-        else if (obj[key] == 2) color = new Module.JSColor(255, 255, 0);
-        else color = new Module.JSColor(0, 255, 0);
-        layer.SetDefineMeshColorByObjectKey(key, 2, color, false);
-    }
-    //new Module.JSColor(255, 0, 0)
-}
-
 function detectObjectAllDegree() {
     GLOBAL.detectedObjectColor = {};
     for (let degree = -180; degree < 180; degree += 45) {
@@ -122,16 +113,34 @@ function detectObjectAllDegree() {
     setDetectedObjectColor();
 }
 
-// 1: 0~10, 2: 11~50, 3: 51~100
+function setDetectedObjectColor() {
+    let obj = GLOBAL.detectedObjectColor;
+    let layer = Module.getTileLayerList().nameAtLayer("facility_build");
+    layer.ClearDefineTileObjectStyle();
+    for (var key in obj) {
+        let color;
+        if (obj[key] == 2) color = new Module.JSColor(255, 0, 0);
+        else if (obj[key] == 3) color = new Module.JSColor(255, 255, 0);
+        else color = new Module.JSColor(0, 255, 0);
+        layer.SetDefineMeshColorByObjectKey(key, 2, color, false);
+    }
+    //new Module.JSColor(255, 0, 0)
+}
+
+// 1:0~1 2: 2~10, 3: 11~50, 4: 51~100
 function detectObject(degree) {
     let layer = Module.getTileLayerList().nameAtLayer("facility_build");
-    for (let i = 1; i < 4; ++i) {
+    for (let i = 1; i < 5; ++i) {
         let pick = layer.getPickInfoAtView(
             getDronePosition(),
             getCheckPosition(degree, i)
         );
 
         if (pick != null) {
+            if (i == 1) {
+                GLOBAL.isDroneCrash = true;
+                return;
+            }
             let detectNum = 100;
             if (GLOBAL.detectedObjectColor[pick.objectKey] != null) {
                 detectNum = Math.min(
@@ -147,7 +156,6 @@ function detectObject(degree) {
     }
 }
 
-// 검증 완료
 function getCheckPosition(degree, distanceNum) {
     let dronePos = getDronePosition();
     let rotatedPos = new Module.JSVector3D(
@@ -156,10 +164,11 @@ function getCheckPosition(degree, distanceNum) {
         dronePos.Altitude
     );
     let direct = getRadians(GLOBAL.camera.getDirect() + degree);
-    let del = 0.001;
-    if (distanceNum == 1) del = 0.0001;
-    else if (distanceNum == 2) del = 0.0005;
-    else if (distanceNum == 3) del = 0.001;
+    let del = 0.00005;
+    if (distanceNum == 1) del = 0.00001;
+    else if (distanceNum == 2) del = 0.0001;
+    else if (distanceNum == 3) del = 0.0005;
+    else if (distanceNum == 4) del = 0.001;
 
     rotatedPos.Longitude += del * Math.sin(direct);
     rotatedPos.Latitude += del * Math.cos(direct);
@@ -240,7 +249,10 @@ function drawVerticalLine(startPos, id) {
 
     let lineStyle = new Module.JSPolyLineStyle();
     let color;
-    if (height < 10) color = new Module.JSColor(255, 0, 0);
+    if (height < 1) {
+        droneCrash("crash: ground");
+        return;
+    } else if (height < 10) color = new Module.JSColor(255, 0, 0);
     else if (height < 20) color = new Module.JSColor(255, 255, 0);
     else color = new Module.JSColor(0, 255, 0);
     lineStyle.setColor(color);

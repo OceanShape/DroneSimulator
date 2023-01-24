@@ -127,4 +127,6 @@ function clearIndicator() {
         layer.removeAtKey("POI" + i);
     }
     layer.removeAtKey("ARROW");
+    layer = GLOBAL.layerList.nameAtLayer("LINE_LAYER");
+    layer.removeAll();
 }
