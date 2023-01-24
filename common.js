@@ -221,8 +221,8 @@ function drawVerticalLine(startPos, id) {
     let lineStyle = new Module.JSPolyLineStyle();
     let color;
     let height = startPos.Altitude;
-    if (height < 5) color = new Module.JSColor(255, 0, 0);
-    else if (height < 10) color = new Module.JSColor(255, 255, 0);
+    if (height < 10) color = new Module.JSColor(255, 0, 0);
+    else if (height < 20) color = new Module.JSColor(255, 255, 0);
     else color = new Module.JSColor(0, 255, 0);
     lineStyle.setColor(color);
     lineStyle.setWidth(2.0);
