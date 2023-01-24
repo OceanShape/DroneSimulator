@@ -57,8 +57,9 @@ function keyPressCallback(event) {
     GLOBAL.droneToTargetDirection = getTargetDirection();
 
     drawLines();
-
     detectObjectAllDegree();
+
+    printDrivingStatus();
 
     Module.XDRenderData();
     // printDroneStatus();
@@ -80,9 +81,8 @@ function mouseMoveCallback(event) {
 
         drawLines();
         detectObjectAllDegree();
+        printDrivingStatus();
     }
-
-    printDroneCamera();
 }
 
 function setDetectedObjectColor() {

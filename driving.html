@@ -2,33 +2,42 @@
 <table style="width: 160px;">
     <td align="center" colspan="2">드론</td>
     <tr>
-        <td align="left" style="width: 50px;">경도</td>
+        <td align="left" style="width: 50px; text-align:center;">경도</td>
         <td align="right"><input id="driving_longitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
     </tr>
     <tr>
-        <td align="left">위도</td>
+        <td align="left" style="text-align:center;">위도</td>
         <td align="right"><input id="driving_latitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
     </tr>
     <tr>
-        <td align="left">고도</td>
+        <td align="left" style="text-align:center;">고도(지면)</td>
         <td align="right"><input id="driving_altitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
-    </tr>
-    <tr>
-        <td align="left">방향</td>
-        <td align="right"><input id="driving_drone_direct" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
     </tr>
     <td align="center" colspan="2">카메라</td>
     <tr>
-        <td style="width: 50px;">TILT</td>
+        <td style="width: 50px; text-align:center;">TILT</td>
         <td align="right"><input id="driving_tilt" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
     </tr>
     <tr>
-        <td>DIRECT</td>
+        <td style="text-align:center;">DIRECT</td>
         <td align="right"><input id="driving_direct" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
     </tr>
     <tr>
-        <td>FOV</td>
+        <td style="text-align:center;">FOV</td>
         <td align="right"><input id="driving_fov" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
+    </tr>
+    <td align="center" colspan="2">도착</td>
+    <tr>
+        <td align="left" style="width: 50px; text-align:center;">경도</td>
+        <td align="right"><input id="driving_end_longitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
+    </tr>
+    <tr>
+        <td align="left" style="text-align:center;">위도</td>
+        <td align="right"><input id="driving_end_latitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
+    </tr>
+    <tr>
+        <td align="left" style="text-align:center;">고도(해발)</td>
+        <td align="right"><input id="driving_end_altitude" type="text" style="text-align: right; width: 90%; height: 90%;" value="-"></td>
     </tr>
 </table>
 <p align="center"><input type="button" value="주행 종료" onclick="changeMode()"></p>

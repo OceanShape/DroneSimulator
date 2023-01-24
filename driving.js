@@ -95,17 +95,37 @@ function drawArrow(target) {
     GLOBAL.layerList.nameAtLayer("POI_LAYER").addObject(arrow, 0);
 }
 
+function printDrivingStatus() {
+    printDroneStatus();
+    printDroneCamera();
+    printTargetPosition();
+}
+
 function printDroneStatus() {
-    let pos = GLOBAL.camera.getLocation();
+    let pos = getDronePosition();
     setItemValue("driving_longitude", pos.Longitude);
     setItemValue("driving_latitude", pos.Latitude);
-    setItemValue("driving_altitude", pos.Altitude);
-    setItemValue("driving_drone_direct", GLOBAL.droneDirection);
+    setItemValue(
+        "driving_altitude",
+        pos.Altitude -
+            Module.getMap().getTerrHeightFast(pos.Longitude, pos.Latitude)
+    );
 }
 
 function printDroneCamera() {
     let camera = GLOBAL.camera;
+    let direct = camera.getDirect();
+    direct %= 360;
+    if (direct >= 360) direct -= 360;
+    else if (direct < 0) direct += 360;
     setItemValue("driving_tilt", camera.getTilt());
-    setItemValue("driving_direct", camera.getDirect());
+    setItemValue("driving_direct", direct);
     setItemValue("driving_fov", camera.getFov());
+}
+
+function printTargetPosition() {
+    let pos = GLOBAL.POIPosition[1];
+    setItemValue("driving_end_longitude", pos.Longitude);
+    setItemValue("driving_end_latitude", pos.Latitude);
+    setItemValue("driving_end_altitude", pos.Altitude);
 }
