@@ -218,13 +218,18 @@ function drawVerticalLine(startPos, id) {
     let line = Module.createLineString(id);
 
     let vertices = new Module.JSVec3Array();
+
     vertices.push(startPos);
-    startPos.Altitude =
+    let height =
         startPos.Altitude -
         Module.getMap().getTerrHeightFast(
             startPos.Longitude,
             startPos.Latitude
         );
+    startPos.Altitude = Module.getMap().getTerrHeightFast(
+        startPos.Longitude,
+        startPos.Latitude
+    );
     vertices.push(startPos);
 
     let part = new Module.Collection();
@@ -235,7 +240,6 @@ function drawVerticalLine(startPos, id) {
 
     let lineStyle = new Module.JSPolyLineStyle();
     let color;
-    let height = startPos.Altitude;
     if (height < 10) color = new Module.JSColor(255, 0, 0);
     else if (height < 20) color = new Module.JSColor(255, 255, 0);
     else color = new Module.JSColor(0, 255, 0);
